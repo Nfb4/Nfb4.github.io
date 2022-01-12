@@ -1,0 +1,22 @@
+<script src='https://d3js.org/d3.v7.min.js'></script> 
+ 
+<body>
+
+</body>
+
+ 
+<script> 
+    for (let count = 1; count<11; count++) {
+    	let newDiv=d3.select("body").append('div')
+      newDiv.text(count)
+      if(count<=5){
+      	newDiv.style('color', 'red')
+      }
+      else{
+      	newDiv.style('color', 'green')
+      }
+    }
+    d3.select("div").text('start');
+    d3.select("div").style('color', 'purple');
+
+</script> 
