@@ -3,6 +3,8 @@
 <script>
   let shapesCSV = 'https://raw.githubusercontent.com/Nfb4/csvFiles/main/ex12.csv';
 	
+  
+  
 	var svg = d3.select("body")
 		.append("svg")
 		.attr("width", 400)
@@ -18,20 +20,30 @@
 				.attr("y", data.cy)
 				.attr("width", data.width)
 				.attr("height", data.height)
-				.attr("fill", data.color);
+        .attr("rx", data.rx)
+				.attr("ry", data.ry)
+        .attr("stroke", data.stroke)
+			.attr("fill", data.color);
+;
 		}
 		else if(data.shape === "circle"){
 				svg.append("circle")
 				.attr("cx", data.cx)
 				.attr("cy", data.cy)
-				.attr("r", data.rx);
+				.attr("r", data.rx)
+        .attr("stroke", data.stroke)
+			.attr("fill", data.color);
+;
 		}
 		else if(data.shape === "ellipse"){
 			svg.append("ellipse")
 			.attr("cx", data.cx)
 			.attr("cy", data.cy)
 			.attr("rx", data.rx)
-			.attr("ry", data.ry);
+			.attr("ry", data.ry)
+      .attr("stroke", data.stroke)
+      .attr("fill", data.color);
+
 			}
 		else if(data.shape === "line"){	
 			svg.append("line")
@@ -39,7 +51,9 @@
 			.attr("x2", data.rx)
 			.attr("y1", data.cy)
 			.attr("y2", data.ry)
-			.attr("stroke", data.color)
+			.attr("stroke", data.stroke)
+			.attr("fill", data.color);
+
 		}
   });
 	
