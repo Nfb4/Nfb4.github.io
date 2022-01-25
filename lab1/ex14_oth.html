@@ -1,7 +1,21 @@
-<script src='https://d3js.org/d3.v7.min.js'></script> 
- 
-<script> 
- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        svg rect {
+            fill: blue;
+        }
+        svg text {
+            fill:white;
+            font: 10px sans-serif;
+            text-anchor: end;   
+        }
+        </style>
+<script src='https://d3js.org/d3.v7.min.js'></script>
+</head>
+<body>
+<script>
+console.log('d3.version:', d3.version);
 let heartfailurecsv = 'https://raw.githubusercontent.com/akmand/datasets/master/heart_failure.csv'; 
 /* 
 age,anaemia,creatinine_phosphokinase,diabetes,ejection_fraction,high_blood_pressure,platelets,serum_creatini
@@ -33,15 +47,9 @@ let ageCount = async function(){
         }
         //console.log(ages)
     }); 
-
-    var p = d3.select("body") 
-              .selectAll("p") 
-              .data(ages) 
-              .enter() 
-                .append('p') 
-                .text(function (d, i) { 
-                         return d; 
-                }); 
  }
  ageCount();
-</script> 
+
+</script>
+</body>
+</html>
