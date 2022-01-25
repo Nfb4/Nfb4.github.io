@@ -59,7 +59,17 @@ var bar = graph.selectAll("g")
 return "translate(0," + i * barHeight + ")";
 });
 bar.append("rect")
-.attr("fill", 'pink')
+.attr("fill", function(d){
+	if(d>150){
+  	return "pink";
+  }
+  else if(d > 130){
+  	return "purple";
+  }
+  else{
+  	return "orange";
+  }
+})
 .attr("width", function(d) {
 return d * scaleFactor;
 })
