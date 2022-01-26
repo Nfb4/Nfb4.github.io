@@ -1,0 +1,42 @@
+<script src='https://d3js.org/d3.v7.min.js'></script>
+<script>
+const width = 700;
+const height = 700;
+const data = [7, 10, 17, 21, 30, 35, 40];
+// Note different valid ways of specifying color
+const colors = ['#ffffcc','red','rgb(0,255,0)','#31a354','#006837'];
+const svg = d3.select("body")
+.append("svg")
+.attr("width", width)
+.attr("height", height);
+const g = svg.selectAll("g")
+.data(data)
+.enter()
+.append("g")
+.attr("transform", function(d, i) {
+return "translate(0,0)";
+})
+let decider = function(d){
+	console.log(d)
+  for(i=0;i<d.length; i++){
+  console.log(d[i])
+    if(d[i]>20){
+      g.append("circle")
+    .attr("cx", i*100 + 50)
+    .attr("cy", 100)
+      .attr("r", d[i]*1.7)
+      .attr("fill", colors[i]);
+    }
+    else{
+      g.append("rect")
+      .attr("x", i*100+20)
+      .attr("y", 80)
+      .attr("width", d[i]*3)
+      .attr("height", d[i]*5)
+      .attr("fill", colors[i]);
+  	}
+  }
+}
+decider(data);
+
+</script>
