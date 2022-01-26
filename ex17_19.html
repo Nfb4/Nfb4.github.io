@@ -2,7 +2,7 @@
 <script>
 
 let csvReturn = async function(csv){
-	data = [];
+	let data = [];
 
   await d3.csv(csv, function(val) {
 			data.push(parseInt(val.value));
