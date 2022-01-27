@@ -1,0 +1,54 @@
+<script src='https://d3js.org/d3.v7.min.js'></script>
+<style>
+svg text {
+fill:white;
+font: 10px sans-serif;
+text-anchor: end;
+}
+</style>
+<script>
+var myColor1 = d3.scaleLinear().domain([1,10]).range(["orange", "purple"]);
+
+console.log(myColor1(0));
+console.log(myColor1(4));
+
+
+
+var data = [5, 10, 12, 6];
+var width = 200;
+var scaleFactor = 10;
+var barHeight = 20;
+var graph = d3.select("body")
+.append("svg")
+.attr("width", width)
+.attr("height", barHeight * data.length);
+var bar = graph.selectAll("g")
+.data(data)
+.enter()
+.append("g")
+.attr("transform", function(d, i) {
+return "translate(0," + i * barHeight + ")";
+});
+bar.append("rect")
+.attr("width", function(d) {
+return d * scaleFactor;
+})
+.attr("fill", function(d){
+	console.log
+	if(d<=5){
+  	return myColor1(2);
+  }
+  else if(d<=10){
+  	return myColor1(6);
+  }
+  else if(d<=15){
+  	return myColor1(9);
+  }
+})
+.attr("height", barHeight - 1);
+bar.append("text")
+.attr("x", function(d) { return (d*scaleFactor); })
+.attr("y", barHeight / 2)
+.attr("dy", ".35em")
+.text(function(d) { return d; });
+</script>
