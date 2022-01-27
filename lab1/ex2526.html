@@ -122,8 +122,15 @@ let drawCurve = function(curve, colour, shape){
   .y(function(d) { return y(d.y) })
   );
 }
+var myColor3 = d3.scaleSequential().domain([1,10]).interpolator(d3.interpolateViridis);
 
-drawCurve("cos", "blue", "circle");
-drawCurve("sin", "green", "triangle");
+
+console.log( 'col 0:', myColor3(0));
+console.log( 'col 2:', myColor3(2));
+console.log( 'col 9:', myColor3(9));
+
+
+drawCurve("cos", myColor3(2), "circle");
+drawCurve("sin", myColor3(8), "triangle");
 
 </script>
