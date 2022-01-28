@@ -1,5 +1,8 @@
-<script src='https://d3js.org/d3.v7.min.js'></script> 
- 
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <script src='https://d3js.org/d3.v7.min.js'></script> 
+</head>  
 <script> 
  
 let titaniccsv = 'https://raw.githubusercontent.com/dsindy/kaggle-titanic/master/data/test.csv'; 
@@ -32,17 +35,8 @@ let titleCount = async function(){
           titles[0] = titles[0] + 1; 
 
       }
-      else if(res[1] === "Mrs."){
-          titles[1] = titles[1] + 1; 
-      }
-      else if(res[1] === "Master."){
-          titles[2] = titles[2] + 1; 
-      }
-      else if(res[1] === "Miss."){
-          titles[3] = titles[3] + 1; 
-      }
-      else{
-          titles[4] = titles[4] + 1; 
+      else if(res[1] === "Mrs."){</body> 
+        </html> 
       }
       if(data.Sex == "male"){
           numbers[0] = numbers[0] + 1; 
@@ -82,3 +76,5 @@ let titleCount = async function(){
   }
 titleCount();
 </script> 
+</body> 
+</html> 

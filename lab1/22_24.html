@@ -1,4 +1,8 @@
-<script src='https://d3js.org/d3.v7.min.js'></script>
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <script src='https://d3js.org/d3.v7.min.js'></script> 
+</head>
 <script>
 // Set Dimensions
 const xSize = 600; const ySize = 600;
@@ -30,10 +34,8 @@ let drawCurve = function(curve, colour){
   else if(curve === "tan"){
     for (let i = 0; i < numPoints; i++) { 
       data.push( {x: i/100, y: Math.tan( 6.2 * i/100 ) } ); 
-    }
-  }
-  else if(curve === "acos"){
-    for (let i = 0; i < numPoints; i++) { 
+    }</body> 
+    </html> 
       data.push( {x: i/100, y: Math.acos( 6.2 * i/100 ) } ); 
     }
   }
@@ -93,3 +95,5 @@ drawCurve("cos", "blue");
 drawCurve("sin", "green");
 
 </script>
+</body> 
+</html> 
