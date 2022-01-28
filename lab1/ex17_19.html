@@ -23,7 +23,7 @@ let csvReturn = async function(csv){
 	.range([50, 500]);
 
 
-		var svg = d3.select("body")
+	var svg = d3.select("body")
 	.append("svg")
 	.attr("width", width)
 	.attr("height", barHeight * data.length);
@@ -61,7 +61,8 @@ let csvReturn = async function(csv){
 		.attr("y", barHeight / 2)
 		.attr("dy", ".35em")
 		.style('text-anchor', 'end')
-		.text(function (d) { return d; }); }
+		.text(function (d) { return d; }); 
+	}
     
     
 let csv = "https://raw.githubusercontent.com/Nfb4/csvFiles/main/ex18.csv";

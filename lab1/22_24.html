@@ -12,6 +12,7 @@ const yMax = ySize - margin*2;
 // Create Random Points
 const numPoints = 100;
 
+// 
 const svg = d3.select("body")
   .append("svg")
   .attr('width', xSize )
@@ -34,8 +35,10 @@ let drawCurve = function(curve, colour){
   else if(curve === "tan"){
     for (let i = 0; i < numPoints; i++) { 
       data.push( {x: i/100, y: Math.tan( 6.2 * i/100 ) } ); 
-    }</body> 
-    </html> 
+    }
+  }
+  else if(curve ==="acos"){
+      for (let i=0; i<numPoints; i++){
       data.push( {x: i/100, y: Math.acos( 6.2 * i/100 ) } ); 
     }
   }
