@@ -3,52 +3,61 @@
 <head> 
     <script src='https://d3js.org/d3.v7.min.js'></script> 
 </head> 
-
+<body>
 <script>
   let shapesCSV = 'https://raw.githubusercontent.com/Nfb4/csvFiles/main/ex12.csv';
 	
   
-  
+  // Add the SVG element
 	var svg = d3.select("body")
 		.append("svg")
 		.attr("width", 400)
 		.attr("height", 400)
 		.style("border", '1px solid green');
 
+// load the csv file
   d3.csv(shapesCSV, function(data) {
 		console.log(data)
-	
+
+		// If shape is a rectangle, read the rectangle specific attirubtes from
+		// The current line of the csv file
 		if(data.shape === "rect"){
 				svg.append("rect")
 				.attr("x", data.cx)
 				.attr("y", data.cy)
 				.attr("width", data.width)
 				.attr("height", data.height)
-        .attr("rx", data.rx)
+        		.attr("rx", data.rx)
 				.attr("ry", data.ry)
-        .attr("stroke", data.stroke)
-			.attr("fill", data.color);
-;
+        		.attr("stroke", data.stroke)
+				.attr("fill", data.color);
 		}
+		
+		// If shape is a circle, read the circle specific attirubtes from
+		// The current line of the csv file
 		else if(data.shape === "circle"){
 				svg.append("circle")
 				.attr("cx", data.cx)
 				.attr("cy", data.cy)
 				.attr("r", data.rx)
-        .attr("stroke", data.stroke)
-			.attr("fill", data.color);
-;
+        		.attr("stroke", data.stroke)
+				.attr("fill", data.color);
+
 		}
+		// If shape is a ellipse, read the ellipse specific attirubtes from
+		// The current line of the csv file
 		else if(data.shape === "ellipse"){
 			svg.append("ellipse")
 			.attr("cx", data.cx)
 			.attr("cy", data.cy)
 			.attr("rx", data.rx)
 			.attr("ry", data.ry)
-      .attr("stroke", data.stroke)
-      .attr("fill", data.color);
+      		.attr("stroke", data.stroke)
+      		.attr("fill", data.color);
 
 			}
+		// If shape is a line, read the line specific attirubtes from
+		// The current line of the csv file
 		else if(data.shape === "line"){	
 			svg.append("line")
 			.attr("x1", data.cx)

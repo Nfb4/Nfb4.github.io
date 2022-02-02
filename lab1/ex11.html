@@ -3,7 +3,7 @@
 <head> 
     <script src='https://d3js.org/d3.v7.min.js'></script> 
 </head> 
-
+<body>
 <script>
     //Create SVG element 
     var svg = d3.select("body")
@@ -12,7 +12,7 @@
         .attr("height", 400)
         .style("border", '1px solid green');
 
-    //Create line element inside SVG 
+    // Top line
     svg.append("line")
         .attr("x1", 100)
         .attr("x2", 200)
@@ -20,6 +20,7 @@
         .attr("y2", 50)
         .attr("stroke", "blue")
 
+    // Bottom Line
     svg.append("line")
         .attr("x1", 100)
         .attr("x2", 200)
@@ -27,6 +28,8 @@
         .attr("y2", 150)
         .attr("stroke", "red")
 
+
+    // Left side line
     svg.append("line")
         .attr("x1", 100)
         .attr("x2", 100)
@@ -34,7 +37,7 @@
         .attr("y2", 50)
         .attr("stroke", "green")
 
-
+    // Right side line
     svg.append("line")
         .attr("x1", 200)
         .attr("x2", 200)
