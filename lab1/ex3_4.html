@@ -10,16 +10,21 @@
 
  
 <script> 
+    // For loop of 10, add a new div element for each loop with the counter value
     for (let count = 0; count<10; count++) {
     	let newDiv=d3.select("body").append('div')
       newDiv.text(count)
+      // If the count is less than or equal to 5 the text will be red,
+      
       if(count<=5){
       	newDiv.style('color', 'red')
       }
+      // if greater it will be green
       else{
       	newDiv.style('color', 'green')
       }
     }
+    // Change the first div element to purple text 'start'
     d3.select("div").text('start');
     d3.select("div").style('color', 'purple');
 
