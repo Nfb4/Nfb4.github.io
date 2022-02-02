@@ -16,8 +16,11 @@
 <p class="test">Third paragraph</p> 
  
 <script> 
+    // Sets the P tags with 'test' to be the colour blue
     d3.selectAll(".test").style('color','blue');
-    console.log('d3.version:', d3.version);
+    console.log('d3.version:', d3.version); // Outputs the d3 Version
+
+    // Adds a new element to the body, then adds text to that element
     let newspan = d3.select("body").append('span'); 
     newspan.text('hello');
 </script> 
