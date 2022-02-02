@@ -2,7 +2,9 @@
 <html lang="en"> 
 <head> 
     <script src='https://d3js.org/d3.v7.min.js'></script> 
-</head> <script>
+</head> 
+<body>
+<script>
 const width = 400;
 const height = 300;
 var data = [10, 15, 20, 25, 30];
@@ -20,15 +22,19 @@ var yscale = d3.scaleLinear()
 .domain([-d3.max(data), d3.max(data)])
 .range([height, 0]);
 
+// Define the Bottom axis
 var x_axis = d3.axisBottom()
 .scale(xscale);
 
+// Define the Top axis
 var x_axis2 = d3.axisTop()
 .scale(xscale);
 
+// Define the Left axis
 var y_axis = d3.axisLeft()
 .scale(yscale);
 
+// Define the Right axis
 var y_axis2 = d3.axisRight()
 .scale(yscale);
 
@@ -36,18 +42,23 @@ svg.append("g")
 .attr("transform", "translate(200, 10)")
 .call(y_axis);
 
+// Append the right bar
 svg.append("g")
 .attr("transform", "translate(200, 10)")
+// set the color to blue
 .attr("color", "blue")
 .call(y_axis2);
 
+// Append the bottom bar
 var xAxisTranslate = height/2 + 10;
 svg.append("g")
 .attr("transform", "translate(50, " + xAxisTranslate +")")
 .call(x_axis)
 
+// Append the top bar
 svg.append("g")
 .attr("transform", "translate(50, " + xAxisTranslate +")")
+// set the color to blue
 .attr("color", "blue")
 .call(x_axis2)
 </script>

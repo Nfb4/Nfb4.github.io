@@ -3,6 +3,7 @@
 <head> 
     <script src='https://d3js.org/d3.v7.min.js'></script> 
 </head> 
+<body>
 <script>
 const width = 700;
 const height = 700;
@@ -24,6 +25,7 @@ let decider = function(d){
 	console.log(d)
   for(i=0;i<d.length; i++){
   console.log(d[i])
+  // If the value is greater than 20 then add a circle
     if(d[i]>20){
       g.append("circle")
     .attr("cx", i*100 + 50)
@@ -31,6 +33,7 @@ let decider = function(d){
       .attr("r", d[i]*1.7)
       .attr("fill", colors[i]);
     }
+    // else (the value is not greater than 20) add a rectangle to the svg
     else{
       g.append("rect")
       .attr("x", i*100+20)

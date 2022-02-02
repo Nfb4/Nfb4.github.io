@@ -24,12 +24,13 @@ ne,serum_sodium,sex,smoking,time,DEATH_EVENT
  
 let ageCount = async function(){
 
+    // Array to store the counts of all the ages
     var ages = [0, 0, 0, 0] 
      
     await d3.csv(heartfailurecsv, function(data) { 
         //console.log( data.age); 
         
-     
+        // If else block to increment counts for each age group
         if(data.age <= 30){
         		ages[0] = ages[0] + 1;
         }
@@ -44,6 +45,8 @@ let ageCount = async function(){
         }
         //console.log(ages)
     }); 
+
+// Variables for creating the bar chart SVG
 var width = 200;
 var scaleFactor = 1;
 var barHeight = 30;
@@ -58,6 +61,7 @@ var bar = graph.selectAll("g")
 .attr("transform", function(d, i) {
 return "translate(0," + i * barHeight + ")";
 });
+// add a for each data item, set its colour based on the value ranges
 bar.append("rect")
 .attr("fill", function(d){
 	if(d>150){

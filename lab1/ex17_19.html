@@ -3,12 +3,15 @@
 <head> 
     <script src='https://d3js.org/d3.v7.min.js'></script> 
 </head> 
+<body>
 <script>
 
 let csvReturn = async function(csv){
 	let data = [];
 
   await d3.csv(csv, function(val) {
+	  // Go through the read in csv file and add each value from it to an Array
+	  // which can then be represented in the graph
 			data.push(parseInt(val.value));
     });
 	const width = 500;
@@ -42,6 +45,8 @@ let csvReturn = async function(csv){
 		.attr("width", function (d) {
 		return scale(d);
 		})
+		// if the value is less than 100 the bar will be green
+		// greater than 500 will be red, otherwise the bar will be blue
 	.attr("fill", function(d){
 		if(d < 100){
   		return "green";
@@ -69,7 +74,7 @@ let csv = "https://raw.githubusercontent.com/Nfb4/csvFiles/main/ex18.csv";
 
 
 let csv2 = "https://raw.githubusercontent.com/Nfb4/csvFiles/main/ex18_2.csv";
-
+// Call the function with eaach csv file
 csvReturn(csv);
 csvReturn(csv2);
 
