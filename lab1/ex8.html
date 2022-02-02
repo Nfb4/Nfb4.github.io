@@ -3,6 +3,7 @@
 <head> 
     <script src='https://d3js.org/d3.v7.min.js'></script> 
 </head>  
+<body>
 <script> 
 var myData =  ['a', 4, 1, 'b', 6, 2, 8, 9, 'z' ]; 
       
@@ -11,12 +12,17 @@ var span = d3.select("body")
           .data(myData) 
           .enter() 
             .append('span').style("color", function(d, i) { 
+                // Loop through all the values in the array
+                // if the type of the current value is a string, return the colour blue
                     if ( typeof(d) === "string" ) { 
                         return "blue"; 
+                // If the type of the current value is a number return the colour green
                     } else if (typeof(d) === "number"){ 
                         return "green"; 
                     }
-                }) .text(function (d, i) { 
+                })
+                // Set the text to be the current value in the array
+                .text(function (d, i) { 
                      return d; 
             });
 </script> 
