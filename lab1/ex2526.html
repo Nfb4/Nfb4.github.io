@@ -13,6 +13,8 @@ const yMax = ySize - margin*2;
 // Create Random Points
 const numPoints = 100;
 
+// Add the svg object to the body
+
 const svg = d3.select("body")
   .append("svg")
   .attr('width', xSize )
@@ -20,8 +22,13 @@ const svg = d3.select("body")
   .append("g")
   .attr("transform","translate(" + margin + "," + margin + ")");
 
+  // Read in the curve type and colour that the curve should be
+  // And what shape should be placed at each data point
 let drawCurve = function(curve, colour, shape){
+    // define an array to store the generated data points
 	let data = []
+   // if else block, depending on the curve type read in will determine what math functions are called
+  // the functions loop for the length of the number of points and add a generated datapoint to the data array
 	if(curve === "sin"){
     for (let i = 0; i < numPoints; i++) { 
       data.push( {x: i/100, y: Math.sin( 6.2 * i/100 ) } ); 
@@ -82,6 +89,7 @@ let drawCurve = function(curve, colour, shape){
   .attr("transform", `translate(${yMax},0)`)
   .call(d3.axisRight(y));
   
+  // If the shape is a circle add a circle at each point in the data array
   if(shape==="circle"){
     svg.selectAll("dot")
     .data(data)
@@ -89,6 +97,7 @@ let drawCurve = function(curve, colour, shape){
     .append("circle")
     .attr("cx", function (d, i) { 
     //console.log(i)
+    // At 4 intervals add text for the y value of that data point
     if(i==20 || i==40 || i==60 | i==80){
     	console.log(d);	
     	svg.append("text")
@@ -103,6 +112,8 @@ let drawCurve = function(curve, colour, shape){
     .attr("r", 5)
     .style("fill", "red");
   }
+  // else if the shape is a triangle add a triangle at each data point
+  // Does not add the y value in text
   else if(shape==="triangle"){
   	svg.selectAll("dot")
     .data(data)
@@ -127,6 +138,7 @@ let drawCurve = function(curve, colour, shape){
   .y(function(d) { return y(d.y) })
   );
 }
+// Colours for the graph are determined using the scale Sequential
 var myColor3 = d3.scaleSequential().domain([1,10]).interpolator(d3.interpolateViridis);
 
 

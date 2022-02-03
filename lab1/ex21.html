@@ -15,6 +15,7 @@ text-anchor: end;
 }
 </style>
 <script>
+// Set variables for data, defining the svg and the axis
 var data = [5, 10, 12, 6];
 var width = 400;
 var height = 400;
@@ -22,17 +23,22 @@ var scaleFactor = 10;
 var barHeight = 20;
 var xAxisTranslate = height/2-115;
 
+// Add the graph svg to the body
 var graph = d3.select("body")
 .append("svg")
 .attr("width", width)
 .attr("height", height);
+
+//add the object to the svg that each bar will be added to
 var bar = graph.selectAll("g")
 .data(data)
 .enter()
 .append("g")
 .attr("transform", function(d, i) {
 return "translate(20," + (i * barHeight) + ")";
-});
+})
+
+// Add a rectangle for each each item in data
 bar.append("rect")
 .attr("width", function(d) {
 return d * scaleFactor;
@@ -44,20 +50,25 @@ bar.append("text")
 .attr("dy", ".35em")
 .text(function(d) { return d; });
 
+// Set the scale to the highest and lowest values of the data so that the axis matches the length of the data
 var scale = d3.scaleLinear()
 .domain([d3.min(data), d3.max(data)])
 .range([0, width - 100]);
 // Add scales to axis
 var x_axis = d3.axisBottom()
 .scale(scale);
+
 //Append group and insert axis
 graph.append("g")
 .attr("transform", "translate(15, " + xAxisTranslate +")")
 .call(x_axis);
 
+// Scale the y axis so it is the same height of the number of data entries
 var yscale = d3.scaleLinear()
 .domain([5,10])
 .range([0, 85]);
+
+// add the axis
 
 var y_axis = d3.axisLeft()
 .scale(yscale);

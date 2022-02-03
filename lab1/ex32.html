@@ -27,10 +27,14 @@ const svg = d3.select("body")
 .attr("transform","translate(" + margin + "," + margin + ")");
 // X Axis
 
+// add append an svg element of an image
 svg.append("svg:image")
+// use a href to set the link
 .attr("xlink:href", "https://i.redd.it/z9f8hxbex0e81.jpg")
+// width and height set so that it fits within the bounds of the graph lines
 .attr("width", 600)
 .attr("height", 520)
+// x -50 so that it sits within the bounds
 .attr("x", -50)
 .attr("y",0);
 
