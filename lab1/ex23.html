@@ -25,12 +25,11 @@ let curveCsv = "https://raw.githubusercontent.com/Nfb4/csvFiles/main/ex22.csv";
 
   // Read in the curve type and colour that the curve should be
   
-let drawCurve = function(curve, colour){
+let drawCurve = async function(colour){
   // define an array to store the generated data points
 	let data = []
-  d3.csv(curveCsv, function(points) { 
-  	console.log(points)
-  	data.push({x: data.x, y:data.y})
+  await d3.csv(curveCsv, function(points) { 
+  	data.push({x: points.x, y: points.y})
   });
   console.log(data);
   // if else block, depending on the curve type read in will determine what math functions are called
@@ -77,7 +76,7 @@ let drawCurve = function(curve, colour){
   );
 }
 // Two function calls, can be any
-drawCurve("sin", "green");
+drawCurve("green");
 
 </script>
 </body> 
