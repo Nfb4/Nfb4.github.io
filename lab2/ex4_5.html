@@ -1,0 +1,52 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <script src='https://d3js.org/d3.v7.min.js'></script> 
+</head> 
+<body>
+<script>
+const width = 400;
+const height = 300;
+var bool = false
+var svg = d3.select("body")
+
+
+.append("svg")
+.attr("width", width)
+.attr("height", height)
+.on("mouseover", function(){
+	if (bool==false){
+  	bool = true;
+		svg.append("text")
+    .attr('x', d3.pointer(event)[0])
+    .attr('y', d3.pointer(event)[1])
+    .text('SKETE')}
+  else{
+  	svg.selectAll("text")
+    .attr('x', d3.pointer(event)[0])
+    .attr('y', d3.pointer(event)[1])
+    .text('SKETE')}
+  });
+
+
+
+svg.append("circle")
+				.attr("cx", 50)
+				.attr("cy", 50)
+				.attr("r", 20)
+        .attr("stroke", 'black')
+				.attr("fill", 'red')
+        .on("mouseover", function(){
+      d3.select(this)
+      .attr("r", 50)})
+      .on("mouseout", function(){
+			d3.select(this)
+      .attr('r', 20)});
+
+
+
+
+
+</script>
+</body>
+</html>
