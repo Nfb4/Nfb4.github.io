@@ -1,0 +1,64 @@
+<script src="//d3js.org/d3.v7.min.js"></script>
+<button onclick="drawPie(data1)">Variable 1</button>
+<button onclick="drawPie(data2)">Variable 2</button>
+
+<script>
+var dataset = {
+apples: [5345, 2879, 1997, 2437, 4045],
+pears: [6456, 1313, 5545, 2278, 3451],
+};
+const data1 = [5345, 2879, 1997, 2437, 4045];
+const data2 = [6456, 1313, 5545, 100, 3451];
+
+var width = 460,
+height = 300,
+radius = Math.min(width, height) / 2;
+var color = d3.scaleOrdinal().range(d3.schemeSet3);
+var pie = d3.pie()
+.sort(null);
+var arc = d3.arc()
+.innerRadius(radius - 100)
+.outerRadius(radius - 50);
+var svg = d3.select("body").append("svg")
+.attr("width", width)
+.attr("height", height)
+.append("g")
+.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+function drawPie(data){
+var path = svg.selectAll("path")
+.data(pie(data))
+
+path.enter()
+.append("path")
+.merge(path)
+.attr("fill", function(d, i) { return color(i); })
+.attr("d", arc)
+.transition()
+.duration(1000)
+.attrTween("d", function (d) {
+var i = d3.interpolate(d.endAngle, d.startAngle);
+return function (t) {
+d.startAngle = i(t);
+return arc(d);
+}
+});
+
+path.update()
+.transition()
+.attr("fill", function(d, i) { return color(i); })
+.attr("d", arc)
+.transition()
+.duration(1000)
+.attrTween("d", function (d) {
+var i = d3.interpolate(d.endAngle, d.startAngle);
+return function (t) {
+d.startAngle = i(t);
+return arc(d);
+}
+})
+;
+}
+
+drawPie(data1);
+</script>
