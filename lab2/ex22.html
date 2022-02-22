@@ -1,0 +1,121 @@
+<script type='text/javascript' src='https://d3js.org/d3.v7.min.js'></script>
+<!-- Add buttons -->
+<button onclick="update(data1, '#69b3a2')">Variable 1</button>
+<button onclick="update(data2, 'red')">Variable 2</button>
+<button onclick="update(data3, 'purple')">Variable 2</button>
+
+<script>
+// create 2 data_set
+const data1 = [
+{group: "A", value: 5},
+{group: "B", value: 20},
+{group: "C", value: 9}
+];
+const data2 = [
+{group: "A", value: 10},
+{group: "B", value: 2},
+{group: "C", value: 17}
+];
+const data3 = [
+{group: "A", value: 18},
+{group: "B", value: 6},
+{group: "C", value: 19},
+{group: "D", value: 12}
+];
+// set the dimensions and margins of the graph
+const margin = {top: 30, right: 30, bottom: 70, left: 60};
+const width = 460 - margin.left - margin.right;
+const height = 400 - margin.top - margin.bottom;
+// append the svg object to the body of the page
+var svg = d3.select('body')
+.append('div')
+.append("svg")
+.attr("width", width + margin.left + margin.right)
+.attr("height", height + margin.top + margin.bottom)
+.append("g")
+.attr("transform",
+"translate(" + margin.left + "," + margin.top + ")");
+// X axis
+
+function iniAxis(x, y){
+			
+
+      svg.append("g")
+      .classed("xBot", true)
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+
+      svg.append("g")
+      .classed("xTop", true)
+      .attr("transform", "translate(0,0")
+      .call(d3.axisTop(x));
+      
+
+      // Add Y axis
+      
+
+      svg.append("g")
+      .classed("yRight", true)
+      .attr("transform", "translate(" + width + ",0)")
+      .call(d3.axisRight(y));
+
+      svg.append("g")
+      .classed("yLeft", true)
+      .attr("class", "myYaxis")
+      .call(d3.axisLeft(y));
+			
+}
+
+
+// A function that create / update the plot for a given variable:
+function update(data, colour) {
+      
+      var x = d3.scaleBand()
+      .range([ 0, width ])
+      .domain(data.map(function(d) { return d.group; }))
+      .padding(0.2);
+      
+      var y = d3.scaleLinear()
+      .domain([0, 20])
+      .range([ height, 0]);
+      
+      iniAxis(x, y)
+
+      var u = svg.selectAll("rect")
+      .data(data)
+      
+      u.enter()
+      .append("rect")
+      .merge(u)
+      .transition()
+      .duration(1000)
+      .ease(d3.easeLinear)
+      .attr("x", function(d) { return x(d.group); })
+      .attr("y", function(d) { return y(d.value); })
+      .attr("width", x.bandwidth())
+      .attr("height", function(d) { return height - y(d.value); })
+      .attr("fill", colour);
+      
+      u.exit()
+      .transition()
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("width", 0)
+      .attr("height", 0)
+      .ease(d3.easeLinear)
+      .duration(1000)
+      .remove();
+      
+      svg.selectAll("g.xBot").call(d3.axisBottom(x));
+		  svg.selectAll("g.xTop").call(d3.axisTop(x));
+      
+			svg.selectAll("g.yRight").call(d3.axisRight(y));
+		  svg.selectAll("g.yLeft").call(d3.axisLeft(y));
+
+}
+
+// Initialize the plot with the first dataset
+
+update(data1, '#69b3a2');
+</script>
