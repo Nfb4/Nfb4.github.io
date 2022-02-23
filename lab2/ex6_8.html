@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--Define d3 source-->
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+  </head>
+  <body>
+    <script>
+      // Addd a div to the body for the rectangle, with set dimensions and colour
+      d3.select("body")
+        .append("div")
+        .style("width", "100px")
+        .style("height", "100px")
+        .style("background-color", "blue")
+        // on mouseover increase the size and change the colour to red
+        // over the course of 1 second
+        .on("mouseover", function () {
+          d3.selectAll("div")
+            .transition()
+            .duration(1000)
+            .style("height", "150px")
+            .style("width", "150px")
+            .style("background-color", "red")
+            // over 2 seconds increase the size again and change the colour to green
+            .transition()
+            .duration(2000)
+            .style("background-color", "green")
+            .style("height", "200px")
+            .style("width", "200px");
+        })
+        // on mouseout return to the original dimensions and colour of the rectangle
+        // perform this return over the course of 2 seconds
+        .on("mouseout", function () {
+          d3.selectAll("div")
+            .transition()
+            .duration(2000)
+            .style("width", "100px")
+            .style("height", "100px")
+            .style("background-color", "blue");
+        });
+    </script>
+  </body>
+</html>

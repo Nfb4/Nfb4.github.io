@@ -1,42 +1,55 @@
-<script type='text/javascript' src='https://d3js.org/d3.v7.min.js'></script>
-<script>
-d3.select('body')
-.append("div")
-.style('width', '100px')
-.style('height', '100px')
-.style('background-color', 'blue')
-.style('transform', 'scale(1.0)')
-.transition()
-.ease( d3.easeBounce )
-.duration(1000)
-.style("background-color", "red")
-.style('transform', 'scale(0.5)')
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--Define d3 source-->
 
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+  </head>
+  <body>
+    <script>
+      // add 3 rectangles to the div all starting at the
+      // same dimensions and colours
+      d3.select("body")
+        .append("div")
+        .style("width", "100px")
+        .style("height", "100px")
+        .style("background-color", "blue")
+        .style("transform", "scale(1.0)")
+        .transition()
+        // over the course of 1 second change the colour to red and half the size
+        // use the bounce transition effect over this second
+        .ease(d3.easeBounce)
+        .duration(1000)
+        .style("background-color", "red")
+        .style("transform", "scale(0.5)");
 
-d3.select('body')
-.append("div")
-.style('width', '100px')
-.style('height', '100px')
-.style('background-color', 'blue')
-.style('transform', 'scale(1.0)')
-.transition()
-.ease( d3.easeElastic )
-.duration(1000)
-.style("background-color", "red")
-.style('transform', 'scale(0.5)')
+      d3.select("body")
+        .append("div")
+        .style("width", "100px")
+        .style("height", "100px")
+        .style("background-color", "blue")
+        .style("transform", "scale(1.0)")
+        .transition()
+        // over the course of 1 second change the colour to red and half the size
+        // use the elastic transition effect over this second
+        .ease(d3.easeElastic)
+        .duration(1000)
+        .style("background-color", "red")
+        .style("transform", "scale(0.5)");
 
-
-d3.select('body')
-.append("div")
-.style('width', '100px')
-.style('height', '100px')
-.style('background-color', 'blue')
-.style('transform', 'scale(1.0)')
-.transition()
-.ease( d3.easeExp )
-.duration(1000)
-.style("background-color", "red")
-.style('transform', 'scale(0.5)')
-
-
-</script>
+      d3.select("body")
+        .append("div")
+        .style("width", "100px")
+        .style("height", "100px")
+        .style("background-color", "blue")
+        .style("transform", "scale(1.0)")
+        .transition()
+        // over the course of 1 second change the colour to red and half the size
+        // use the exponential transition effect over this second
+        .ease(d3.easeExp)
+        .duration(1000)
+        .style("background-color", "red")
+        .style("transform", "scale(0.5)");
+    </script>
+  </body>
+</html>

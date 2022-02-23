@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--Define d3 source-->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+  </head>
+  <body>
+    <script>
+      // Define starting values for svg
+      const width = 400;
+      const height = 300;
+
+      // starter bool value to place text on the screen on start
+      var bool = false;
+
+      // Add svg to the body using the inital values
+      var svg = d3
+        .select("body")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+      // add a circle, with initial x and y values and radius
+      // with black outline and red fill
+      svg
+        .append("circle")
+        .attr("cx", 50)
+        .attr("cy", 50)
+        .attr("r", 20)
+        .attr("stroke", "black")
+        .attr("fill", "red")
+        // on mouseover increase the radius to 50
+        .on("mouseover", function () {
+          d3.select(this).attr("r", 50);
+        })
+        // on mouseout reduce the radius back to 20
+        .on("mouseout", function () {
+          d3.select(this).attr("r", 20);
+        });
+    </script>
+  </body>
+</html>

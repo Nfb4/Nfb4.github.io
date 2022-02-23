@@ -1,1 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--Define d3 source-->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+  </head>
+  <body>
+    <script>
+      // Add svg to the body
+      var svg = d3
+        .select("body")
+        .append("svg")
+        .attr("width", 500)
+        .attr("height", 500);
+      // add three bars, 20px apart on the x-axis with the same height and width
+      var bar1 = svg
+        .append("rect")
+        .attr("fill", "blue")
+        .attr("x", 100)
+        .attr("y", 20)
+        .attr("height", 20)
+        .attr("width", 10);
+      var bar2 = svg
+        .append("rect")
+        .attr("fill", "blue")
+        .attr("x", 120)
+        .attr("y", 20)
+        .attr("height", 20)
+        .attr("width", 10);
+      var bar3 = svg
+        .append("rect")
+        .attr("fill", "blue")
+        .attr("x", 140)
+        .attr("y", 20)
+        .attr("height", 20)
+        .attr("width", 10);
 
+      // call the update function
+      update();
+
+      function update() {
+        // Over 2 seconds increase the height to 100 and change to red
+        // then after 4 seconds return to original values
+        // all done with linear easing
+        bar1
+          .transition()
+          .ease(d3.easeLinear)
+          .duration(2000)
+          .attr("height", 100)
+          .attr("fill", "red")
+          .transition()
+          .ease(d3.easeLinear)
+          .duration(2000)
+          .delay(4000)
+          .attr("height", 20)
+          .attr("fill", "blue");
+        // after 2 seconds take 2 seconds to increase the height to 100 and change to red
+        // then after 4 seconds return to original values
+        // all done with linear easing
+        bar2
+          .transition()
+          .ease(d3.easeLinear)
+          .duration(2000)
+          .delay(2000)
+          .attr("height", 100)
+          .attr("fill", "red")
+          .transition()
+          .ease(d3.easeLinear)
+          .duration(2000)
+          .delay(4000)
+          .attr("height", 20)
+          .attr("fill", "blue");
+        // after 4 seconds take 2 seconds to increase the height to 100 and change to red
+        // then after 4 seconds return to original values
+        // all done with linear easing
+        bar3
+          .transition()
+          .ease(d3.easeLinear)
+          .duration(2000)
+          .delay(4000)
+          .attr("height", 100)
+          .attr("fill", "red")
+          .transition()
+          .ease(d3.easeLinear)
+          .duration(2000)
+          .delay(4000)
+          .attr("height", 20)
+          .attr("fill", "blue");
+      }
+    </script>
+  </body>
+</html>

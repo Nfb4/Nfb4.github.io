@@ -1,62 +1,78 @@
-<!DOCTYPE html> 
-<html lang="en"> 
-<head> 
-    <script src='https://d3js.org/d3.v7.min.js'></script> 
-</head> 
-<body>
-<script>
-const width = 400;
-const height = 300;
-var bool = false
-var svg = d3.select("body")
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--Define d3 source-->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+  </head>
+  <body>
+    <script>
+      // Define starting values for svg
+      const width = 400;
+      const height = 300;
 
+      // starter bool value to place text on the screen on start
+      var bool = false;
 
-.append("svg")
-.attr("width", width)
-.attr("height", height);
+      // Add svg to the body
+      // Add svg to the body using the inital values
+      var svg = d3
+        .select("body")
 
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
 
+      // add a circle, with initial x and y values and radius
+      // with black outline and red fill
+      svg
+        .append("circle")
+        .attr("cx", 50)
+        .attr("cy", 50)
+        .attr("r", 20)
+        .attr("stroke", "black")
+        .attr("fill", "red")
+        // on mouseover increase the radius to 50
+        .on("mouseover", function () {
+          d3.select(this).attr("r", 50);
+        })
+        // on mouseout with a bounce transition, over 1 second reduce the radius back to 20
+        .on("mouseout", function () {
+          d3.select(this)
+            .transition()
+            .ease(d3.easeBounce)
+            .duration(1000)
+            .attr("r", 20);
+        });
 
-svg.append("circle")
-				.attr("cx", 50)
-				.attr("cy", 50)
-				.attr("r", 20)
-        .attr("stroke", 'black')
-				.attr("fill", 'red')
-        .on("mouseover", function(){
-      d3.select(this)
-      .attr("r", 50)})
-      .on("mouseout", function(){
-			d3.select(this)
-      .transition()
-      .ease( d3.easeBounce )
-      .duration(1000)
-      .attr('r', 20)});
+      // add text to the svg, intially small, coloured red
 
-svg.append("text")
-		.attr('x', 100)
-    .attr('y', 100)
-    .attr('font-size', 'small')
-    .attr('fill', 'red')
-    .text('SKETE')
-    .on("mouseover", function(){
-      d3.select(this)
-      .attr('font-size', 'medium')
-      .attr('fill', 'green')
-})
-      .on("mouseout", function(){
-			d3.select(this)
-      .transition()
-      .ease( d3.easeBounce )
-      .duration(1000)
-      .attr('font-size', 'small')
-      .attr('fill', 'red')
-
-});
-
-
-
-
-</script>
-</body>
+      svg
+        .append("text")
+        .attr("x", 100)
+        .attr("y", 100)
+        .attr("font-size", "small")
+        .attr("fill", "red")
+        .text("TEXT_VALUE")
+        // on mouseover over the course of a second, with quadratic easing
+        // increase the size to medium and change the colour to green
+        .on("mouseover", function () {
+          d3.select(this)
+            .transition()
+            .ease(d3.easeQuad)
+            .duration(1000)
+            .attr("font-size", "medium")
+            .attr("fill", "green");
+        })
+        // on mouseout over the course of a second with bounce easing,
+        // return the text size to small and colour to red
+        .on("mouseout", function () {
+          d3.select(this)
+            .transition()
+            .ease(d3.easeBounce)
+            .duration(1000)
+            .attr("font-size", "small")
+            .attr("fill", "red");
+        });
+    </script>
+  </body>
 </html>

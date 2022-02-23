@@ -1,26 +1,38 @@
-<script type='text/javascript' src='https://d3js.org/d3.v7.min.js'>
-</script>
-<script>
-d3.select('body')
-.append('div')
-.style('width', '100px')
-.style('height', '20px')
-.style('background-color', 'green');
-d3.selectAll("div")
-.on("mouseover", function(event){
-d3.select(this)
-.style("background-color", "orange")
-.style("width", '200px');
-// Get current event info
-// Note: d3.event (event) passed as the first argument to all listeners
-console.log(event);
-// Get x & y co-ordinates
-// Note: d3.mouse was removed in d3v6, you should use d3.pointer(event)
-console.log(d3.pointer(event));
-})
-.on("mouseout", function(){
-d3.select(this)
-.style("background-color", "steelblue")
-.style("width", '100px')
-});
-</script>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!--Define d3 source-->
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+  </head>
+  <body>
+    <script>
+    // Append a div to the body to act as a rectangle to perform mouseover on
+      d3.select("body")
+        .append("div")
+        .style("width", "100px")
+        .style("height", "20px")
+        .style("background-color", "green");
+
+    // Set attributes for the div, change the colour and increase the size and change colour
+      d3.selectAll("div")
+        .on("mouseover", function (event) {
+          d3.select(this)
+            .style("background-color", "orange")
+            .style("width", "200px");
+          // Get current event info
+          // Note: d3.event (event) passed as the first argument to all listeners
+          console.log(event);
+          // Get x & y co-ordinates
+          // Note: d3.mouse was removed in d3v6, you should use d3.pointer(event)
+          console.log(d3.pointer(event));
+        })
+        // on mouseout change the colour to steelblue and return the height to the original value
+        .on("mouseout", function () {
+          d3.select(this)
+            .style("background-color", "steelblue")
+            .style("width", "100px");
+        });
+    </script>
+  </body>
+</html>

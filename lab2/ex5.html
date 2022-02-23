@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--Define d3 source-->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+  </head>
+  <body>
+    <script>
+      // Define starting values for svg
+      const width = 400;
+      const height = 300;
+
+      // starter bool value to place text on the screen on start
+      var bool = false;
+
+      // Add svg to the body
+      var svg = d3
+        .select("body")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        // On mouseover of the svg, if the text isn't present add the text
+        // if the text is present update its position to the mouse location
+        .on("mouseover", function () {
+          if (bool == false) {
+            // Set the bool to true now that text is one the screen
+            bool = true;
+            // Add the text to the svg at the mouse location with the text 'text_value'
+            svg
+              .append("text")
+              .attr("x", d3.pointer(event)[0])
+              .attr("y", d3.pointer(event)[1])
+              .text("TEXT_VALUE")
+              .attr("fill", "red");
+          } else {
+            // Update the location of the text to the mouse's location
+            svg
+              .selectAll("text")
+              .attr("x", d3.pointer(event)[0])
+              .attr("y", d3.pointer(event)[1]);
+          }
+        });
+    </script>
+  </body>
+</html>
