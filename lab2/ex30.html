@@ -1,0 +1,294 @@
+<script type='text/javascript' src='https://d3js.org/d3.v7.min.js'></script>
+<script>
+dataset = [{
+  radius: 19.895666385307514
+}, {
+  radius: 23.964572970647247
+}, {
+  radius: 4.841308713084549
+}, {
+  radius: 6.824328069968236
+}, {
+  radius: 18.64290039479465
+}, {
+  radius: 23.550486303667423
+}, {
+  radius: 11.650834556285849
+}, {
+  radius: 17.001148376250384
+}, {
+  radius: 12.404335471172034
+}, {
+  radius: 0.8124082650932674
+}, {
+  radius: 2.456791658583038
+}, {
+  radius: 0.5510744076386631
+}, {
+  radius: 10.741619667413454
+}, {
+  radius: 12.711091410208075
+}, {
+  radius: 14.943749816981388
+}, {
+  radius: 15.511395178611473
+}, {
+  radius: 22.462230560865205
+}, {
+  radius: 17.42839329462754
+}, {
+  radius: 23.03083978467585
+}, {
+  radius: 21.28262905412765
+}, {
+  radius: 10.195468435196432
+}, {
+  radius: 20.730869644029397
+}, {
+  radius: 23.17840511352143
+}, {
+  radius: 16.571856512200636
+}, {
+  radius: 19.881367816463115
+}, {
+  radius: 8.052911265279237
+}, {
+  radius: 15.659665463206554
+}, {
+  radius: 23.347011714526253
+}, {
+  radius: 3.4114847633003627
+}, {
+  radius: 0.540545804556436
+}, {
+  radius: 13.431193521733945
+}, {
+  radius: 8.23992119884375
+}, {
+  radius: 15.235087092896455
+}, {
+  radius: 13.39989351357001
+}, {
+  radius: 24.52372380716842
+}, {
+  radius: 8.880839707237811
+}, {
+  radius: 15.221401839936547
+}, {
+  radius: 1.8941202415029113
+}, {
+  radius: 10.079117831606702
+}, {
+  radius: 22.87439383036208
+}, {
+  radius: 19.226062760504924
+}, {
+  radius: 10.025012393524444
+}, {
+  radius: 16.58618623340206
+}, {
+  radius: 7.147494324196043
+}, {
+  radius: 7.046084601793093
+}, {
+  radius: 8.952314008794811
+}, {
+  radius: 24.519936820731843
+}, {
+  radius: 18.3190200633073
+}, {
+  radius: 6.77364027437761
+}, {
+  radius: 24.168052229268895
+}, {
+  radius: 5.418787459482624
+}, {
+  radius: 16.316447263026625
+}, {
+  radius: 16.62886880833975
+}, {
+  radius: 1.8909699775970956
+}, {
+  radius: 23.444996198375367
+}, {
+  radius: 15.792967963982038
+}, {
+  radius: 9.77779213533455
+}, {
+  radius: 8.38899190600895
+}, {
+  radius: 13.916828042196833
+}, {
+  radius: 21.75713856513091
+}, {
+  radius: 24.188721862648645
+}, {
+  radius: 8.401388725908992
+}, {
+  radius: 20.517312314267784
+}, {
+  radius: 18.457359526802016
+}, {
+  radius: 7.5313966552717435
+}, {
+  radius: 19.29402030678311
+}, {
+  radius: 14.646909173079987
+}, {
+  radius: 23.5174561699966
+}, {
+  radius: 12.943795081403605
+}, {
+  radius: 18.40347877665969
+}, {
+  radius: 7.539225693048196
+}, {
+  radius: 16.797960298426506
+}, {
+  radius: 18.033996339076264
+}, {
+  radius: 12.384749003728036
+}, {
+  radius: 18.27119293580418
+}, {
+  radius: 1.3347032725059993
+}, {
+  radius: 8.372957625469521
+}, {
+  radius: 20.874099624185803
+}, {
+  radius: 21.93857173919731
+}, {
+  radius: 12.103453472358927
+}, {
+  radius: 12.624774445113554
+}, {
+  radius: 23.645913188283018
+}, {
+  radius: 5.174409186339105
+}, {
+  radius: 24.75980300830049
+}, {
+  radius: 4.375832596376131
+}, {
+  radius: 10.557597818587142
+}, {
+  radius: 14.415927441944612
+}, {
+  radius: 3.4551757184245275
+}, {
+  radius: 19.102804432331027
+}, {
+  radius: 14.866947952818684
+}, {
+  radius: 9.329543293575181
+}, {
+  radius: 11.999351493932373
+}, {
+  radius: 22.92260037403987
+}, {
+  radius: 5.106480304746097
+}, {
+  radius: 10.017918140292753
+}, {
+  radius: 16.676957233005297
+}, {
+  radius: 18.099059903971245
+}, {
+  radius: 7.037973578559412
+}, {
+  radius: 7.71366297192182
+}, {
+  radius: 2.135309495807966
+}]
+
+var myColor0 = d3.scaleLinear().domain([1,100]).range(["red", "blue"]);
+
+
+var width = 400, height = 400;
+// setup svg
+d3.select('body').append('svg').attr('width',width).attr('height',height);
+// generate some random data
+/* var numNodes = 100;
+var nodes = d3.range(numNodes).map(function(d) {
+return {radius: Math.random() * 25}
+}) */
+var simulation = d3.forceSimulation(dataset)
+.force('charge', d3.forceManyBody().strength(5))
+.force('center', d3.forceCenter(width / 2, height / 2))
+.force('collision', d3.forceCollide().radius(function(d) {
+return d.radius
+}))
+.on('tick', ticked);
+function ticked() {
+var u = d3.select('svg')
+.selectAll('circle')
+.data(dataset)
+.join('circle')
+.attr('fill', function(d, i){
+	/* if(d < (dataset.length * 0.2)){
+	      return myColor0(i);
+	  }
+	  if(d < (dataset.length * 0.4)){
+	      return myColor1(d-(dataset.length * 0.4));
+	      }
+	  if(d < (dataset.length * 0.6)){
+	      return myColor2(d-(dataset.length * 0.6));
+	      }
+	   if(d < (dataset.length * 0.8)){
+	      return myColor3(d-(dataset.length * 0.8));
+	      }
+	   if(d < dataset.length){
+	      return myColor4(d-dataset.length);
+	   } */
+   return myColor0(i)
+  }
+  
+			
+)
+.attr('r', function(d) {
+return d.radius
+})
+.attr('cx', function(d) {
+return d.x
+})
+.attr('cy', function(d) {
+return d.y
+})
+.on("mouseover", onMouseOver)
+}
+console.log('ready..');
+
+
+//mouseover event handler function
+function onMouseOver(d, i) {
+d3.select(this).attr('class', 'highlight');
+d3.select(this)
+.style("fill", "#014421");
+
+g.append("text")
+.attr('class', 'val')
+.attr('x', function() {
+return x(d.year);
+})
+.attr('y', function() {
+return y(d.value) - 15;a
+})
+.text( function(d) { return '$' + i.value; } ); // Value of the text
+}
+//mouseout event handler function
+function onMouseOut(d, i) {
+// use the text label class to remove label on mouseout
+d3.select(this).attr('class', 'bar');
+d3.select(this)
+.transition() // adds animation
+.duration(400)
+.attr('width', x.bandwidth())
+.attr("y", function(d) { return y(i.value); })
+.attr("height", function(d) { return height - y(i.value); });
+d3.selectAll('.val')
+.remove()
+}
+
+
+</script>
