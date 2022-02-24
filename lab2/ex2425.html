@@ -1,0 +1,25 @@
+<script src="//d3js.org/d3.v7.min.js"></script>
+<script>
+let intr = d3.interpolate( [20, 40, 4], [1, 12, 10])
+console.log("Type of returned function is: ", typeof (intr) );
+console.log( intr(0.2) )
+
+console.log( intr(0.4) )
+
+console.log( intr(0.5) )
+
+
+
+let cc = d3.interpolate('red', 'green')
+console.log( cc(0.5) );
+console.log( cc(0.1) );
+
+console.log( cc(0.8) );
+console.log( cc(1) );
+console.log( cc(0) );
+
+
+
+
+
+</script>
