@@ -10,15 +10,20 @@
   const data1 = [5345, 2879, 1997, 2437, 4045];
   const data2 = [6456, 1313, 5545, 100, 3451];
   // Set intial values to start drawing pie chart
+  
   var width = 460,
     height = 300,
     radius = Math.min(width, height) / 2;
+    
   var color = d3.scaleOrdinal().range(d3.schemeSet3);
+
   var pie = d3.pie().sort(null);
+
   var arc = d3
     .arc()
     .innerRadius(radius - 100)
     .outerRadius(radius - 50);
+
   // Add svg to the body
   var svg = d3
     .select("body")

@@ -125,6 +125,7 @@
       function onMouseOver(d, i) {
         // Classify as highlight to use the css
         d3.select(this).attr("class", "highlight");
+
         // Transition to the increassed y value for the highlighted version
         d3.select(this)
           .transition() // adds animation
@@ -136,6 +137,7 @@
           .attr("height", function (d) {
             return height - y(d.value) + 10;
           });
+          
         // Add the text for the stock price of the highlighted bar
         g.append("text")
           .attr("class", "val")
@@ -159,6 +161,7 @@
         // reclassify as bar and change the y value and height back to their original values
         d3.select(this).attr("class", "bar");
         d3.select(this)
+
           .transition() // adds animation
           .duration(400)
           .attr("width", x.bandwidth())

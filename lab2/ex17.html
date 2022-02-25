@@ -138,6 +138,7 @@
         // Classify as highlight to use the css
 
         d3.select(this).attr("class", "highlight");
+        
         d3.select(this)
           .transition() // adds animation
           .duration(400)
@@ -148,6 +149,7 @@
           .attr("height", function (d) {
             return height - y(d.value) + 10;
           });
+
         // Add the text for the stock price of the highlighted bar
         // X and Y is determined by the bar itself
         g.append("text")

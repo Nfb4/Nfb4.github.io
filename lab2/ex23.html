@@ -73,6 +73,7 @@
         const xExtent = d3.extent(data, (d) => {
           return d.x;
         });
+
         const yExtent = d3.extent(data, (d) => {
           return d.y;
         });
@@ -82,6 +83,7 @@
           .scaleLinear()
           .domain([0, xExtent[1] + 2])
           .range([0, xMax]);
+          
         const y = d3
           .scaleLinear()
           .domain([0, yExtent[1] + 2])

@@ -4,7 +4,7 @@
     <!--Define d3 source-->
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <!--Buttons to call various simulations--> 
+    <!--Buttons to call various simulations-->
     <button onclick="sim(.8, 74, 0.1, 7, 14, 0,1, 0.4);">Variable 1</button>
     <button onclick="sim(.4, 50, 0.1, 4, 10, 0.05, 0.2)">Variable 2</button>
     <button onclick="sim(.9, 100, 0.4, 12, 20, 0.5, 0.9)">Variable 2</button>
@@ -319,14 +319,17 @@
         .scaleLinear()
         .domain([0, dataset.length])
         .range(["red", "blue"]);
+
       // Add a text div to display the rgb value of a node
       d3.select("body")
         .append("div")
         .attr("id", "rgbVal")
         .attr("style", "position: absolute;");
       // Set dimensions
+
       var width = 800,
         height = 800;
+        
       // setup svg
       var svg = d3
         .select("body")
