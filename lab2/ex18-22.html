@@ -110,10 +110,10 @@ function update(data, colour) {
       .remove();
       
       svg.selectAll("g.xBot").call(d3.axisBottom(x));
-		  svg.selectAll("g.xTop").call(d3.axisTop(x));
+	svg.selectAll("g.xTop").call(d3.axisTop(x));
       
-			svg.selectAll("g.yRight").call(d3.axisRight(y));
-		  svg.selectAll("g.yLeft").call(d3.axisLeft(y));
+	svg.selectAll("g.yRight").call(d3.axisRight(y));
+	svg.selectAll("g.yLeft").call(d3.axisLeft(y));
 
 }
 

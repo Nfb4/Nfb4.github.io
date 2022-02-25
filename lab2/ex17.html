@@ -62,7 +62,6 @@
           .attr("text-anchor", "end")
           .attr("stroke", "black")
           .text("Year");
-
         g.append("g")
           .call(
             d3
@@ -85,7 +84,10 @@
           .enter()
           .append("rect")
           .attr("fill", function (d) {
-            if (d["value"] > 55) {
+            if (d["value"] > d3.median(data, function (d) {
+                return d.value;
+              })) 
+              {
               return "red";
             } else {
               return "steelblue";
@@ -127,12 +129,8 @@
           });
         g.append("text")
           .attr("class", "val")
-          .attr("x", function () {
-            return x(d.year);
-          })
-          .attr("y", function () {
-            return y(d.value) - 15;
-          })
+          .attr("x", d3.select(this).attr("x"))
+          .attr("y",  d3.select(this).attr("y") -25)
           .text(function (d) {
             return "$" + i.value;
           }); // Value of the text

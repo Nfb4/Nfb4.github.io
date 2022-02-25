@@ -5,6 +5,8 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
   </head>
   <body>
+    <!--CSS to define bar colours-->
+
     <style>
       .bar {
         fill: steelblue;
@@ -16,14 +18,17 @@
     <svg width="600" height="500"></svg>
 
     <script>
+      // Define csv file to be read from
       let csvfile =
         "https://raw.githubusercontent.com/Nfb4/csvFiles/main/part%204.csv";
 
+      // Define css and define values to be used by the graph
       var svg = d3.select("svg");
       var margin = 200;
       var width = svg.attr("width") - margin;
       var height = svg.attr("height") - margin;
 
+      // Add text item for the stock price title
       svg
         .append("text")
         .attr("transform", "translate(100,0)")
@@ -32,20 +37,25 @@
         .attr("font-size", "24px")
         .text("Stock Price");
 
+      // Define scales to keep values of data within the scale of the size of the graph
       var x = d3.scaleBand().range([0, width]).padding(0.4);
       var y = d3.scaleLinear().range([height, 0]);
 
+      // Define a graph item on the svg
       var g = svg
         .append("g")
         .attr("transform", "translate(" + 100 + "," + 100 + ")");
 
+        // Iterate through csv file
       d3.csv(csvfile).then(function (data) {
-        console.log(data);
+        // Set the domain for x to be the years in the data
         x.domain(
           data.map(function (d) {
             return d.year;
           })
         );
+                // Set the domain for y to be the values in the data
+
         y.domain([
           0,
           d3.max(data, function (d) {

@@ -1,92 +1,125 @@
-<script type='text/javascript' src='https://d3js.org/d3.v7.min.js'></script>
+<script type="text/javascript" src="https://d3js.org/d3.v7.min.js"></script>
 <!-- Add buttons -->
 <button onclick="update(data1, '#69b3a2')">Variable 1</button>
 <button onclick="update(data2, 'red')">Variable 2</button>
-<button onclick="update(data3, 'purple')">Variable 2</button>
 
 <script>
-// create 2 data_set
-const data1 = [
-{x: 6, y: 2},
-{x: 7, y: 4},
-{x: 10, y: 6}
-];
-const data2 = [
-{x: 1, y: 10},
-{x: 2, y: 2},
-{x: 5, y: 17}
-];
+  // create 2 data_set
+  const data1 = [
+    { x: 6, y: 2 },
+    { x: 7, y: 4 },
+    { x: 10, y: 6 },
+  ];
+  const data2 = [
+    { x: 1, y: 10 },
+    { x: 2, y: 2 },
+    { x: 5, y: 17 },
+  ];
 
-// set the dimensions and margins of the graph
-// Set Dimensions
-const xSize = 600; const ySize = 600;
-const margin = 40;
-const xMax = xSize - margin*2;
-const yMax = ySize - margin*2;
+  // set the dimensions and margins of the graph
+  // Set Dimensions
+  const xSize = 600;
+  const ySize = 600;
+  const margin = 40;
+  const xMax = xSize - margin * 2;
+  const yMax = ySize - margin * 2;
 
+  //const margin = {top: 30, right: 30, bottom: 70, left: 60};
+  // Append SVG Object to the Page
+  const svg = d3
+    .select("body")
+    .append("svg")
+    .attr("width", xSize)
+    .attr("height", ySize)
+    .append("g")
+    .attr("transform", "translate(" + margin + "," + margin + ")");
 
-//const margin = {top: 30, right: 30, bottom: 70, left: 60};
-// Append SVG Object to the Page
-const svg = d3.select("body")
-.append("svg")
-.attr('width', xSize )
-.attr('height', ySize )
-.append("g")
-.attr("transform","translate(" + margin + "," + margin + ")");
+  // Function used to initilise the x and y axes on start
+  function iniAxis(x, y) {
+    // add a bottom x axis to the graph, class it as 'xBot'
+    svg
+      .append("g")
+      .classed("xBot", true)
+      .attr("transform", "translate(0," + xMax + ")")
+      .call(d3.axisBottom(x));
 
-
-
-
-// A function that create / update the plot for a given variable:
-function update(data, colour) {
-
-		// Get the 'limits' of the data - the full extent (mins and max)
-    // so the plotted data fits perfectly
-    const xExtent = d3.extent( data, d=>{ return d.x } );
-    const yExtent = d3.extent( data, d=>{ return d.y } );
-
-			console.log(data)
-      // X Axis
-      const x = d3.scaleLinear()
-      .domain([ 0, xExtent[1] ])
-      .range([0, xMax]);
-      // bottom
-      svg.append("g").classed("axis", true)
-      .attr("transform", "translate(0," + yMax + ")")
-      .call(d3.axisBottom(x))
-      .attr('color', 'green'); // make bottom axis green
-      // top
-      svg.append("g")
+    // add a top x axis to the graph, class it as 'xTop'
+    svg
+      .append("g")
+      .classed("xTop", true)
+      .attr("transform", "translate(0,0)")
       .call(d3.axisTop(x));
-      // Y Axis
-      const y = d3.scaleLinear()
-      .domain([ 0, yExtent[1] ])
-      .range([ yMax, 0]);
-      // left y axis
-      svg.append("g")
-      .call(d3.axisLeft(y));
-      // right y axis
-      svg.append("g")
-      .attr("transform", `translate(${yMax},0)`)
+
+    // Add a right Y axis class it as 'yRight'
+    svg
+      .append("g")
+      .classed("yRight", true)
+      .attr("transform", "translate(" + yMax + ",0)")
       .call(d3.axisRight(y));
-      // Add the line
-      var u = svg.selectAll("gline")
-      .datum(data)
-      
-      u.enter()      
+
+    // Add a right Y axis class it as 'yLeft'
+    svg
+      .append("g")
+      .classed("yLeft", true)
+      .call(d3.axisLeft(y));
+  }
+
+  // A function that create / update the plot for a given variable:
+  function update(data, colour) {
+    // Get the 'limits' of the data - the full extent (mins and max)
+    // so the plotted data fits perfectly
+    const xExtent = d3.extent(data, (d) => {
+      return d.x;
+    });
+    const yExtent = d3.extent(data, (d) => {
+      return d.y;
+    });
+
+    // X Axis
+    const x = d3.scaleLinear().domain([0, xExtent[1]+2]).range([0, xMax]);
+    const y = d3.scaleLinear().domain([0, yExtent[1]+2]).range([yMax, 0]);
+    // left y axis
+
+    iniAxis(x, y);
+
+    // Add the line
+    var u = svg.selectAll("path").datum(data);
+
+    u.enter()
       .append("path")
-      .classed("gline", true)
       .merge(u)
       .transition()
       .duration(1000)
       .attr("fill", "none")
       .attr("stroke", colour)
       .attr("stroke-width", 1.5)
-      .attr("d", d3.line()
-      .x(function(d) { return x(d.x) })
-      .y(function(d) { return y(d.y) }));
+      .attr(
+        "d",
+        d3
+          .line()
+          .x(function (d) {
+            return x(d.x);
+          })
+          .y(function (d) {
+            return y(d.y);
+          })
+      );
 
-}
-// Initialize the plot with the first dataset
-update(data1, '#69b3a2')
+    u.exit()
+      .transition()
+      
+      .attr("width", 0)
+      .attr("height", 0)
+      .ease(d3.easeLinear)
+      .duration(1000)
+      .remove();
+
+    svg.selectAll("g.xBot").call(d3.axisBottom(x));
+    svg.selectAll("g.xTop").call(d3.axisTop(x));
+
+    svg.selectAll("g.yRight").call(d3.axisRight(y));
+    svg.selectAll("g.yLeft").call(d3.axisLeft(y));
+  }
+  // Initialize the plot with the first dataset
+  update(data1, "#69b3a2");
 </script>
