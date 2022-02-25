@@ -98,6 +98,7 @@
           .append("path")
           .merge(u)
           .transition()
+          .ease(d3.easeCubic)
           .duration(1000)
           .attr("fill", "none")
           .attr("stroke", colour)
@@ -114,15 +115,6 @@
               })
           );
 
-        u.exit()
-          // remove the uneeded data points
-          .transition()
-
-          .attr("width", 0)
-          .attr("height", 0)
-          .ease(d3.easeLinear)
-          .duration(1000)
-          .remove();
 
         // redraw the axes as needed
         svg.selectAll("g.xBot").call(d3.axisBottom(x));

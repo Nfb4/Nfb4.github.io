@@ -36,43 +36,21 @@
     path
       .enter()
       .append("path")
+      // merge the items
       .merge(path)
       // setting colour based on ordinal function
+      
+      // Transition between start and end points
+      .transition()
+      .ease(d3.easeCubic)
+      .duration(1000)
+      // Set the colour to the index's colour
       .attr("fill", function (d, i) {
         return color(i);
       })
       .attr("d", arc)
-      // Transition between start and end points
-      .transition()
-      .duration(1000)
-      .attrTween("d", function (d) {
-        // find size by interpolating between end and start angles
-        var i = d3.interpolate(d.endAngle, d.startAngle);
-        return function (t) {
-          d.startAngle = i(t);
-          return arc(d);
-        };
-      });
+      ;
 
-    path
-      .update()
-      // Transition between start and end points
-      .transition()
-      .transition()
-      .duration(1000)
-      // setting colour based on ordinal function
-      .attr("fill", function (d, i) {
-        return color(i);
-      })
-      .attr("d", arc)
-      .attrTween("d", function (d) {
-        // find size by interpolating between end and start angles
-        var i = d3.interpolate(d.endAngle, d.startAngle);
-        return function (t) {
-          d.startAngle = i(t);
-          return arc(d);
-        };
-      });
   }
 
   drawPie(data1);
