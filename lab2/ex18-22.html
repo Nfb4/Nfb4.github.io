@@ -72,18 +72,21 @@ function iniAxis(x, y){
 // also updates the axes as the size of the dataset changes
 function update(data, colour) {
       
-      // Defining x scale so values 
+      // Defining x scale so values are proportionate
       var x = d3.scaleBand()
       .range([ 0, width ])
       .domain(data.map(function(d) { return d.group; }))
       .padding(0.2);
       
+      // Define the y scale so that the values are proportionate
       var y = d3.scaleLinear()
       .domain([0, 20])
       .range([ height, 0]);
       
+      // Intilise the axes
       iniAxis(x, y)
 
+      // Iterate through the dataset and add rectangles for each item
       var u = svg.selectAll("rect")
       .data(data)
       
@@ -93,6 +96,7 @@ function update(data, colour) {
       .transition()
       .duration(1000)
       .ease(d3.easeLinear)
+      // X and Y determined by the value and group
       .attr("x", function(d) { return x(d.group); })
       .attr("y", function(d) { return y(d.value); })
       .attr("width", x.bandwidth())
@@ -100,6 +104,7 @@ function update(data, colour) {
       .attr("fill", colour);
       
       u.exit()
+      // Linearly remove an uneeded bar by taking it to 0,0
       .transition()
       .attr("x", 0)
       .attr("y", 0)
@@ -109,6 +114,7 @@ function update(data, colour) {
       .duration(1000)
       .remove();
       
+      // Update the axes as needed when values change
       svg.selectAll("g.xBot").call(d3.axisBottom(x));
 	svg.selectAll("g.xTop").call(d3.axisTop(x));
       

@@ -1,25 +1,45 @@
-<script src="//d3js.org/d3.v7.min.js"></script>
-<script>
-let intr = d3.interpolate( [20, 40, 4], [1, 12, 10])
-console.log("Type of returned function is: ", typeof (intr) );
-console.log( intr(0.2) )
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--Define d3 source-->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+  </head>
+  <body>
+    <script>
+        // Interpolation finds the value a certain ration between two values
+      let intr = d3.interpolate([20, 40, 4], [1, 12, 10]);
+      console.log("Type of returned function is: ", typeof intr);
+      // E.g. 20-1 = 19, .2* 19 = 3.8, 20-3.8 = 16.2
+      // 0.4 * 19 = 7.6, 20-7.6 = 12.4
+      console.log(intr(0.2));
 
-console.log( intr(0.4) )
-
-console.log( intr(0.5) )
-
-
-
-let cc = d3.interpolate('red', 'green')
-console.log( cc(0.5) );
-console.log( cc(0.1) );
-
-console.log( cc(0.8) );
-console.log( cc(1) );
-console.log( cc(0) );
-
+      console.log(intr(0.4));
+    // 40 - 12 = 28, 28 * .5 = 14, 40-14 = 26
+      console.log(intr(0.5));
 
 
+        // Scales between the two colours, e.g. cc(1) is entirely red,
+        // cc(0) is entirely green
+        // 0.5 is the middle of both
+      let cc = d3.interpolate("red", "green");
+      console.log(cc(0.5));
+      // 0.1 is (255 - 255 * 1), (128 - 128 * .9)
+      console.log(cc(0.1));
 
+      console.log(cc(0.8));
+      console.log(cc(1));
+      console.log(cc(0));
 
-</script>
+        // Date functions the same, finds the point between two dates
+        // with the ratio deteremined by the read in input
+      let intDate = d3.interpolate(
+        new Date("2020-01-15"),
+        new Date("2021-01-15")
+      );
+
+      console.log(intDate(0.1));
+
+      console.log(intDate(0.5));
+    </script>
+  </body>
+</html>

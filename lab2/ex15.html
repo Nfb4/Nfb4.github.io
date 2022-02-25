@@ -46,7 +46,7 @@
         .append("g")
         .attr("transform", "translate(" + 100 + "," + 100 + ")");
 
-        // Iterate through csv file
+      // Iterate through csv file
       d3.csv(csvfile).then(function (data) {
         // Set the domain for x to be the years in the data
         x.domain(
@@ -54,7 +54,7 @@
             return d.year;
           })
         );
-                // Set the domain for y to be the values in the data
+        // Set the domain for y to be the values in the data set
 
         y.domain([
           0,
@@ -62,6 +62,7 @@
             return d.value;
           }),
         ]);
+        // Add x axis with Year label to graph
         g.append("g")
           .attr("transform", "translate(0," + height + ")")
           .call(d3.axisBottom(x))
@@ -72,6 +73,7 @@
           .attr("stroke", "black")
           .text("Year");
 
+        // Add Y axis to graph with $ values
         g.append("g")
           .call(
             d3
@@ -81,6 +83,7 @@
               })
               .ticks(10)
           )
+          // Add Stock Price Label to the top of the graph
           .append("text")
           .attr("transform", "rotate(-90)")
           .attr("y", 6)
@@ -89,12 +92,14 @@
           .attr("stroke", "black")
           .text("Stock Price");
 
+        // Iterate through the dataset and append rectangles for each item, the x axis is determined by
+        // The year for that item and the y axis is determined by the price value
         g.selectAll(".bar")
           .data(data)
           .enter()
           .append("rect")
+          //classify as a bar
           .attr("class", "bar")
-          // .on(..... ) – call mouse events here...
           .attr("x", function (d) {
             return x(d.year);
           })
@@ -102,8 +107,10 @@
             return y(d.value);
           })
           .attr("width", x.bandwidth())
+          // Highlighting mouseover functionality
           .on("mouseover", onMouseOver)
           .on("mouseout", onMouseOut)
+          // Linearly transition to the highlighted version of the bar, increasing the height
           .transition()
           .ease(d3.easeLinear)
           .duration(400)
@@ -116,7 +123,9 @@
       });
 
       function onMouseOver(d, i) {
+        // Classify as highlight to use the css
         d3.select(this).attr("class", "highlight");
+        // Transition to the increassed y value for the highlighted version
         d3.select(this)
           .transition() // adds animation
           .duration(400)
@@ -127,15 +136,19 @@
           .attr("height", function (d) {
             return height - y(d.value) + 10;
           });
+        // Add the text for the stock price of the highlighted bar
         g.append("text")
           .attr("class", "val")
           .attr("x", function () {
+            // set x value
             return x(d.year);
           })
           .attr("y", function () {
+            // set y value
             return y(d.value) - 15;
           })
           .text(function (d) {
+            // return the items value
             return "$" + i.value;
           }); // Value of the text
       }
@@ -143,6 +156,7 @@
       //mouseout event handler function
       function onMouseOut(d, i) {
         // use the text label class to remove label on mouseout
+        // reclassify as bar and change the y value and height back to their original values
         d3.select(this).attr("class", "bar");
         d3.select(this)
           .transition() // adds animation
@@ -154,6 +168,7 @@
           .attr("height", function (d) {
             return height - y(i.value);
           });
+        //Remove the text item
         d3.selectAll(".val").remove();
       }
     </script>
