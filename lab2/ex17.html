@@ -151,7 +151,8 @@
           });
 
         // Add the text for the stock price of the highlighted bar
-        // X and Y is determined by the bar itself
+        // X and Y is determined by the bar itself, an offset of 25 is used to center the text
+        // as the text will appear at the start of the bar otherwise
         g.append("text")
           .attr("class", "val")
           .attr("x", d3.select(this).attr("x"))
