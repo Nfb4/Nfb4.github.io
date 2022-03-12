@@ -31,7 +31,8 @@ var margin = {top: 20, right: 20, bottom: 30, left: 50},
     height = 500 - margin.top - margin.bottom;
 
 // parse the date / time
-var parseTime = d3.timeParse("%d-%b-%y");
+// 2020-02-25
+var parseTime = d3.timeParse("%Y-%m-%d");
 
 // set the ranges
 var x = d3.scaleTime().range([0, width]);
@@ -57,49 +58,68 @@ var svg = d3.select("body").append("svg")
 
 // Get the data
 d3.csv(data).then(function(data) {
-    max = 0
     country = ''
   // format the data 
   data.forEach(function(d) {
         str = d.Entity.toString()
 
         var arr = str.split("-");
-      if(arr[0].slice(0, -1)== country){
+      if(arr[0].slice(0, -1) == country){
           
-          dict[country].push([d['Date'], d['Cumulative total']])
+          dict[country].push([parseTime(d['Date']), d['Cumulative total']])
           if(d['Cumulative total'] > max){
             max = d['Cumulative total']
+        if(parseTime(d['Date']) > date){
+            date = parseTime(d['Date'])
+        }
         }
       }
       else{
           country = arr[0].slice(0, -1)
-          dict[arr[0].slice(0, -1)] = [[d['Date'], d['Cumulative total']]]
+          dict[arr[0].slice(0, -1)] = [[parseTime(d['Date']), d['Cumulative total']]]
           max = d['Cumulative total']
+          date = parseTime(d['Date'])
       }
   });
+//console.log(date)
+  for (const [key, value] of Object.entries(dict)) {
+    svg.append("path")
+      .datum(value)
+      .attr("fill", "none")
+      .attr("class", "line")
+      .attr("stroke", "steelblue")
+      .attr("stroke-width", 1.5)
+      .attr("d", d3.line()
+        .x(function(d) { 
+            return x(d[0]) })
+        .y(function(d) { 
+            
+            return y(d[1]) })
+        )
+}
 
-    var valueline = d3.line()
-        .x(function(d) { return x(dict['Albania'][0][1]); })
-        .y(function(d) { return y(dict['Albania'][0][0]); });
-  console.log(x(dict['Albania'][0][1]))
-  console.log((dict['Albania'][0][0]))
+
 
   // Scale the range of the data
-  x.domain(d3.extent(data, function(d) { return d.date; }));
+  x.domain(d3.extent(data, function(d) { 
+    return parseTime(d.Date); }));
+
+
+    
   y.domain([0, max]);
 
-  // Add the valueline path.
-  svg.append("path")
-      .data([data])
-      .attr("class", "line")
-      .attr("d", valueline);
+//   // Add the valueline path.
+//   svg.append("path")
+//       .data([data])
+//       .attr("class", "line")
+//       .attr("d", valueline);
 
-  // Add the valueline2 path.
-  svg.append("path")
-      .data([data])
-      .attr("class", "line")
-      .style("stroke", "red")
-      .attr("d", valueline2);
+//   // Add the valueline2 path.
+//   svg.append("path")
+//       .data([data])
+//       .attr("class", "line")
+//       .style("stroke", "red")
+//       .attr("d", valueline2);
 
   // Add the X Axis
   svg.append("g")
@@ -110,7 +130,7 @@ d3.csv(data).then(function(data) {
   svg.append("g")
       .call(d3.axisLeft(y));
 
-      console.log(dict)
+
 
 
       
