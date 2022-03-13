@@ -1,78 +1,120 @@
-
 <!DOCTYPE html>
-<meta charset="utf-8">
-<style> /* set the CSS */
+<meta charset="utf-8" />
+<style>
+  /* set the CSS */
 
-.line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 2px;
-}
-
+  .line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 2px;
+  }
 </style>
 <body>
-
-<!-- load the d3.js library -->    	
-<script src="https://d3js.org/d3.v7.min.js"></script>
-<script>
+  <!-- load the d3.js library -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script>
     // set the dimensions and margins of the graph
-const margin = {top: 10, right: 30, bottom: 30, left: 60},
-    width = 460 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    const margin = { top: 10, right: 30, bottom: 30, left: 60 },
+      width = 860 - margin.left - margin.right,
+      height = 800 - margin.top - margin.bottom;
 
     var parseTime = d3.timeParse("%Y-%m-%d");
 
+    // append the svg object to the body of the page
+    var svg = d3
+      .select("body")
+      .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-// append the svg object to the body of the page
-var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
+    let CSVFILE =
+      "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/testing/covid-testing-all-observations.csv";
+    let owidCSV =
+      "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv";
+    //Read the data
 
+    function bar(continentVar) {
+      d3.csv(owidCSV).then(function (data) {
+        // group the data: I want to draw one line per group
+        const group = d3.group(
+          data,
+          (d) => d.continent,
+          (d) => d.iso_code
+        ); // nest function allows to group the calculation per level of a factor
+       
+        // Add X axis it is a date format
+        filtered = group.get(continentVar)
+        const x = d3
+          .scaleTime()
+          .domain(
+            d3.extent(filtered, function (d) {
+              return parseTime(d[1][0].date);
+            })
+          )
+          .range([0, width]);
 
-    let CSVFILE = 'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/testing/covid-testing-all-observations.csv'
+        svg
+          .append("g")
+          .attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(x));
 
-//Read the data
-d3.csv(CSVFILE).then( function(data) {
+        // Add Y axis
+        const y = d3
+          .scaleLinear()
+          .domain([
+            0,
+            12000
+          ])
+          .range([height, 0]);
+        svg.append("g").call(d3.axisLeft(y));
 
-  // group the data: I want to draw one line per group
-  const sumstat = d3.group(data, d=>d.Entity); // nest function allows to group the calculation per level of a factor
+        // color palette
+        const color = d3
+          .scaleOrdinal()
+          .range([
+            "#e41a1c",
+            "#377eb8",
+            "#4daf4a",
+            "#984ea3",
+            "#ff7f00",
+            "#ffff33",
+            "#a65628",
+            "#f781bf",
+            "#999999",
+          ]);
+//console.log(sumstat.get(continentVar))
+        // Draw the line
+        max = 0
+        // console.log(sumstat.get(continentVar))
+        svg
+          .selectAll(".line")
+          .data(filtered)
+          .join("path")
+          .attr("fill", "none")
+          .attr("stroke", function (d) {
+            return color(d[0]);
+          })
+          .attr("stroke-width", 1.5)
+          .attr("d", function (d) {
+            return d3
+              .line()
+              .x(function (d) {
+                  return x(parseTime(d.date));
+              })
+              .y(function (d) {
+                  return y(parseFloat(d.new_cases_per_million));
+                
+              })
+              (d[1]);
+          });
+          
+      });
 
-  // Add X axis it is a date format
-  const x = d3.scaleTime()
-    .domain(d3.extent(data, function(d) { return parseTime(d.Date); }))
-    .range([ 0, width ]);
+      
+    }
 
-  svg.append("g")
-    .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
-
-  // Add Y axis
-  const y = d3.scaleLinear()
-    .domain([0, d3.max(data, function(d) { return d['Cumulative total']; })])
-    .range([ height, 0 ]);
-  svg.append("g")
-    .call(d3.axisLeft(y));
-
-  // color palette
-  const color = d3.scaleOrdinal()
-    .range(['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#f781bf','#999999'])
-
-  // Draw the line
-  svg.selectAll(".line")
-      .data(sumstat)
-      .join("path")
-        .attr("fill", "none")
-        .attr("stroke", function(d){ return color(0) })
-        .attr("stroke-width", 1.5)
-        .attr("d", function(d){
-          return d3.line()
-            .x(function(d) { return x(parseTime(d.Date)); })
-            .y(function(d) { return y(+d['Cumulative total']); })
-            (d[1])
-        })
-        console.log(sumstat)
-})</script>
+    bar('Europe');
+  </script>
 </body>
