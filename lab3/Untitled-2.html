@@ -30,7 +30,7 @@
       "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv";
     //Read the data
 
-    function bar(continentVar) {
+    function bar(input) {
       d3.csv(owidCSV).then(function (data) {
         // group the data: I want to draw one line per group
         const group = d3.group(
@@ -38,9 +38,18 @@
           (d) => d.continent,
           (d) => d.iso_code
         ); // nest function allows to group the calculation per level of a factor
+       const countryGroup = d3.group(
+          data,
+          (d) => d.location,
+          (d) => d.iso_code
+        ); // nest function allows to group the calculation per level of a factor
        
         // Add X axis it is a date format
-        filtered = group.get(continentVar)
+        filtered = group.get(input)
+        if(filtered == undefined){
+          filtered = countryGroup.get(input)
+        }
+        console.log(filtered)
         const x = d3
           .scaleTime()
           .domain(
@@ -110,6 +119,6 @@
       
     }
 
-    bar('Africa');
+    bar('Afghanistan');
   </script>
 </body>
