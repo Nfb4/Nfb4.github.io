@@ -25,107 +25,166 @@
     </div>
 
     <script>
-    var parseTime = d3.timeParse("%Y-%m-%d");
+      var parseTime = d3.timeParse("%Y-%m-%d");
       // REQUEST DATA
-
 
       let owidCSV =
         "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv";
 
       d3.csv(owidCSV).then(function (data) {
         // group the data: I want to draw one line per group
-          const location = d3.group(
-            data,
-            (d) => d.location
-          ); // nest function allows to group the calculation per level of a factor
-          const ISO = d3.group(
-            data,
-            (d) => d.iso_code
-          ); // nest function allows to group the calculation per level of a factor
-        
-      d3.json(
-        "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"
-      ).then(function (json) {
-        update(json);
-      });
-      const svg = d3.select("svg"),
-        width = +svg.attr("width"),
-        height = +svg.attr("height");
+        const location = d3.group(data, (d) => d.location); // nest function allows to group the calculation per level of a factor
+        const ISO = d3.group(data, (d) => d.iso_code); // nest function allows to group the calculation per level of a factor
 
-        
-
-
-      let projection = d3
-        .geoMercator()
-        .scale(width / 1.8 / Math.PI)
-        .translate([width / 2, height / 2]);
-
-      let geoGenerator = d3.geoPath().projection(projection);
-
-      function handleMouseover(e, d) {
-        let pixelArea = geoGenerator.area(d);
-        let bounds = geoGenerator.bounds(d);
-        let centroid = geoGenerator.centroid(d);
-        let measure = geoGenerator.measure(d);
-        console.log(d.properties.name)
-        d3.select("#content .info").text(
-          d.properties.name +
-            " (path.area = " +
-            pixelArea.toFixed(1) +
-            " path.measure = " +
-            measure.toFixed(1) +
-            ")"
-        );
-
-        d3.select("#content .centroid")
-          .style("display", "inline")
-          .attr("transform", "translate(" + centroid + ")");
-      }
-
-      const color_scale = d3.scaleSqrt(["#ddd", "#777" ,"#000"]).domain(0,100000/2,100000);
-      // const color_scale = d3.scaleLinear().domain(0, 100000)
-      //              .range(["white", "red"]);
-
-
-      function update(geojson) {
-        let u = d3
-          .select("#content g.map")
-          .selectAll("path")
-          .data(geojson.features);
-        u.enter()
-          .append("path")
-          .attr("d", geoGenerator)
-          .attr('fill', function(d){
-            if(location.get(d['properties']['name']) != undefined){
-                loc = location.get(d['properties']['name'])
-                max = 0
-                for(let i = 0; i < loc.length; i++){
-                  if (loc[i].total_cases > max){max = loc[i].total_cases}
-                }
-                console.log(color_scale(parseInt(max)))
-
-              return color_scale((max))
-            }
-            else if( ISO.get(d['properties']['name']) != undefined){
-              
-              loc = ISO.get(d['properties']['name'])
-                max = 0
-                for(let i = 0; i < loc.length; i++){
-                  console.log(parseInt(max))
-                  if (loc[i].total_cases > max){max = loc[i].total_cases}
-                }
-                console.log(color_scale(max))
-
-              return color_scale((max))}
-            else{
-            return 'black';}
-
-          })
-          .on("mouseover", handleMouseover);
-      }
-      
+        d3.json(
+          "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"
+        ).then(function (json) {
+          update(json);
         });
-      
+        const svg = d3.select("svg"),
+          width = +svg.attr("width"),
+          height = +svg.attr("height");
+
+        let projection = d3
+          .geoMercator()
+          .scale(width / 1.8 / Math.PI)
+          .translate([width / 2, height / 2]);
+
+        let geoGenerator = d3.geoPath().projection(projection);
+
+        function handleMouseover(e, d) {
+          let pixelArea = geoGenerator.area(d);
+          let bounds = geoGenerator.bounds(d);
+          let centroid = geoGenerator.centroid(d);
+          let measure = geoGenerator.measure(d);
+          d3.select("#content .info").text(
+            d.properties.name +
+              " (path.area = " +
+              pixelArea.toFixed(1) +
+              " path.measure = " +
+              measure.toFixed(1) +
+              ")"
+          );
+
+          d3.select("#content .centroid")
+            .style("display", "inline")
+            .attr("transform", "translate(" + centroid + ")");
+        }
+
+        // const color = d3
+        //   .scaleOrdinal()
+        //   .range([
+        //     "#e41a1c", // red
+        //     "#377eb8", // blue
+        //     "#4daf4a", // Green
+        //     "#984ea3", // purple
+        //     "#ff7f00", // Orange
+        //     "#ffff33", // yellow
+        //     "#a65628", // brown
+        //     "#f781bf", // pink
+        //     "#999999", // grey
+        //     "#10faff" // Ice blue
+        //   ]);
+        const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+        let max_val = 80000000;
+        let gap = 5000000;
+
+        function update(geojson) {
+          let u = d3
+            .select("#content g.map")
+            .selectAll("path")
+            .data(geojson.features);
+          u.enter()
+            .append("path")
+            .attr("d", geoGenerator)
+            .attr("fill", function (d) {
+              if (location.get(d["properties"]["name"]) != undefined) {
+                max = findMax(location.get(d["properties"]["name"]));
+
+                return colorReturn(max, max_val, gap, color);
+              } else if (ISO.get(d["properties"]["name"]) != undefined) {
+                max = findMax(ISO.get(d["properties"]["name"]));
+
+                return colorReturn(max, max_val, gap, color);
+              } else {
+                if (d["properties"]["name"] == "England") {
+                  max = findMax(location.get("United Kingdom"));
+
+                  return colorReturn(max, max_val, gap, color);
+                } else if (d["properties"]["name"] == "Czech Republic") {
+                  max = findMax(location.get("Czechia"));
+                  return colorReturn(max, max_val, gap, color);
+                } else if (d["properties"]["name"] == "Republic of Serbia") {
+                  max = findMax(location.get("Serbia"));
+                  return colorReturn(max, max_val, gap, color);
+                } else if (d["properties"]["name"] == "The Bahamas") {
+                  max = findMax(location.get("Bahamas"));
+                  return colorReturn(max, max_val, gap, color);
+                } else if (d["properties"]["name"] == "Ivory Coast") {
+                  max = findMax(ISO.get("CIV"));
+                  return colorReturn(max, max_val, gap, color);
+                } else if (d["properties"]["name"] == "Democratic Republic of the Congo") {
+                  max = findMax(location.get("Congo"));
+                  return colorReturn(max, max_val, gap, color);
+                }
+                else if (d["properties"]["name"] == "Guinea Bissau") {
+                  max = findMax(location.get("Guinea"));
+                  return colorReturn(max, max_val, gap, color);
+                }
+                else if (d["properties"]["name"] == "Puerto Rico") {
+                  max = findMax(ISO.get("USA"));
+                  return colorReturn(max, max_val, gap, color);
+                }
+                else if (d["properties"]["name"] == "East Timor") {
+                  max = findMax(location.get("Timor"));
+                  return colorReturn(max, max_val, gap, color);
+                }
+                else if (d["properties"]["name"] == "United Republic of Tanzania") {
+                  max = findMax(location.get("Tanzania"));
+                  return colorReturn(max, max_val, gap, color);
+                }
+                
+                return "black";
+              }
+            })
+            .on("mouseover", handleMouseover);
+        }
+
+        function colorReturn(max, max_val, tenth, color) {
+          // if (max > 100000000) {
+          //   return color(0);
+          // }  if (max > 70000000) {
+          //   console.log(color)
+          //   return color(1);
+          // } else if (max > 65000000) {
+          //   return color(2);
+          // } else if (max > 60000000) {
+          //   return color(3);
+          // } else if (max > 55000000) {
+          //   return color(4);
+          // } else if (max > 50000000) {
+          //   return color(5);
+          // } else if (max > 45000000) {
+          //   return color(6);
+          // } else if (max > 40000000) {
+          //   return color(7);
+          // } else if (max > 0) {
+          //   return color(8);
+          // } else 
+          return color(max);
+        }
+
+        function findMax(loc) {
+          let max = 0;
+          for (let i = 0; i < loc.length; i++) {
+            if (parseInt(loc[i].total_cases_per_million) > max) {
+              max = parseInt(loc[i].total_cases_per_million);
+            }
+          }
+          return max;
+        }
+      });
     </script>
   </body>
 </html>
