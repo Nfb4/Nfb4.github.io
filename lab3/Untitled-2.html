@@ -33,46 +33,56 @@
     function bar(input) {
       d3.csv(owidCSV).then(function (data) {
         // group the data: I want to draw one line per group
-        const group = d3.group(
-          data,
-          (d) => d.continent,
-          (d) => d.iso_code
-        ); // nest function allows to group the calculation per level of a factor
-       const countryGroup = d3.group(
-          data,
-          (d) => d.location,
-          (d) => d.iso_code
-        ); // nest function allows to group the calculation per level of a factor
-       
-        // Add X axis it is a date format
-        filtered = group.get(input)
-        if(filtered == undefined){
-          filtered = countryGroup.get(input)
+        arr = []
+        for(let i=0; i<data.length; i++){
+          if (data[i].location == input){
+            arr.push(data[i]);
+          }
         }
-        console.log(filtered)
-        const x = d3
-          .scaleTime()
+        arr.forEach(function (d){
+          d.date = new Date(d.date);
+          d.new_cases = +d.new_cases;
+          d.people_vaccinated = +d.people_vaccinated;
+
+        })
+
+        arr.sort(function(i, j){
+          return new Date(j.date) - new Date(i.date);
+        })
+
+        const x = d3.scaleLinear()
           .domain(
-            d3.extent(filtered, function (d) {
-              return parseTime(d[1][0].date);
+            d3.extent(arr, function (d) {
+              return d.date;
             })
           )
           .range([0, width]);
 
-        svg
-          .append("g")
-          .attr("transform", "translate(0," + height + ")")
-          .call(d3.axisBottom(x));
+          // Add Y axis
+          const y = d3
+            .scaleLinear()
+            .domain([
+              0,
+              d3.max(arr, function(d){
+                return data === "cases" ? d.new_cases : d.people_vaccinated;
+              })
+            ])
+            .range([height, 0]);
 
-        // Add Y axis
-        const y = d3
-          .scaleLinear()
-          .domain([
-            0,
-            12000
-          ])
-          .range([height, 0]);
-        svg.append("g").call(d3.axisLeft(y));
+        // svg
+        //   .append("g")
+        //   .attr("transform", "translate(0," + height + ")")
+        //   .call(d3.axisBottom(x));
+
+        
+        // svg.append("g").call(d3.axisLeft(y));
+
+        let valLine = d3.line().x(function(d){
+          return x(d.date);
+        })
+        .y(function(d){
+          return y(data === "cases" ? d.new_cases : d.people_vaccinated);
+        })
 
         // color palette
         const color = d3
@@ -88,31 +98,47 @@
             "#f781bf",
             "#999999",
           ]);
-//console.log(sumstat.get(continentVar))
+
         // Draw the line
-        max = 0
-        // console.log(sumstat.get(continentVar))
-        svg
-          .selectAll(".line")
-          .data(filtered)
-          .join("path")
-          .attr("fill", "none")
-          .attr("stroke", function (d) {
-            return color(d[0]);
-          })
-          .attr("stroke-width", 1.5)
-          .attr("d", function (d) {
-            return d3
-              .line()
-              .x(function (d) {
-                  return x(parseTime(d.date));
-              })
-              .y(function (d) {
-                  return y(parseFloat(d.new_cases_per_million));
+        svg.append("path").data([arr])
+        .attr("d", valLine)
+        .attr("class", data=="cases"?"lineBlue":"lineRed")
+
+        svg.append("g").attr("transform", "translate(0,"+height+")")
+        .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%b %y")).ticks(12))
+
+        svg.append("g")
+        .call(d3.axisRight(y).tickSize(width))
+        .call((g) => g.select(".domain").remove())
+        .call((g)=>
+          g.selectAll("tick:not(:first-of-type) line")
+          .attr("stroke-opacity", 0.5)
+          .attr("stroke-dasharray", "2.2")
+        )
+        .call((g)=>
+          g.selectAll(".tick text").attr("x", 4).attr("color", white)
+        );
+        // svg
+        //   .selectAll(".line")
+        //   .data(filtered)
+        //   .join("path")
+        //   .attr("fill", "none")
+        //   .attr("stroke", function (d) {
+        //     return color(d[0]);
+        //   })
+        //   .attr("stroke-width", 1.5)
+        //   .attr("d", function (d) {
+        //     return d3
+        //       .line()
+        //       .x(function (d) {
+        //           return x(parseTime(d.date));
+        //       })
+        //       .y(function (d) {
+        //           return y(parseFloat(d.new_cases_per_million));
                 
-              })
-              (d[1]);
-          });
+        //       })
+        //       (d[1]);
+        //   });
           
       });
 
