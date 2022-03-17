@@ -126,16 +126,20 @@ let drawCurve = function(curve, colour, shape){
   
   // If the shape is a circle add a circle at each point in the data array
   if(shape==="circle"){
+    // For each datapoint, add a circle, classified as a pulse
     svg.selectAll("dot")
     .data(data)
     .enter()
     .append("circle")
     .classed("pulse", true)
+    // set the x value of the circle to the x value in the data
     .attr("cx", function (d, i) { 
     
     return x(d.x) } )
+    // set the y axis to the returned y value from the data
     .attr("cy", function (d, i) { return y(d.y) } )
     .attr("r", 5)
+    // set the colour to red
     .style("fill", "red");
   }
   // else if the shape is a triangle add a triangle at each data point

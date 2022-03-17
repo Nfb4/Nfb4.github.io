@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style> /* set the CSS */
+
+.line {
+  fill: none;
+  stroke-width: 2px;
+}
+
+</style>
+<body>
+
+<!-- load the d3.js library -->    	
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+var parseTime = d3.timeParse("%Y-%m-%d");
+// set the dimensions and margins of the graph
+var margin = {top: 20, right: 20, bottom: 50, left: 70},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+// parse the date / time
+
+
+// set the ranges
+var x = d3.scaleTime().range([0, width]);
+var y = d3.scaleLinear().range([height, 0]);
+
+// define the line
+var valueline = d3.line()
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.new_cases); });
+
+    var valueline2 = d3.line()
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.new_vaccinations); });
+
+// append the svg obgect to the body of the page
+// appends a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+// Get the data
+function lineChart(input){
+  d3.csv("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv"
+  ).then(function(data) {
+
+    // format the data
+  arr=[]
+
+    data.forEach(function(d) {
+        if( d.location ==input){
+            arr.push(d)
+            
+      ;}
+    });console.log(arr)
+    arr.forEach(function(d){
+      d.date = parseTime(d.date);
+        d.new_cases = +d.new_cases
+        d.new_vaccinations = +d.new_vaccinations
+    });
+
+    // Scale the range of the data
+    x.domain(d3.extent(arr, function(d) { return d.date; }));
+    y.domain([0, d3.max(arr, function(d) { return d.new_vaccinations; })]);
+
+    // Add the valueline path.
+    var u = svg.selectAll('line')
+            .data([arr]);
+
+          u
+            .join("path")
+            .attr("class", "line")
+            .attr("stroke", "steelblue")
+            .attr("fill","none")
+            .transition()
+            .duration(3000)
+            .attr("d", valueline)
+            ;
+           
+          u
+            .join("path")
+            .attr("class", "line")
+            .attr("stroke", "maroon")
+            .attr("fill","none")
+            .transition()
+            .duration(3000)
+            .attr("d", valueline2);
+
+
+    // svg.append("path")
+    // .attr('class','line')
+    // .attr("d", d3.line().x(function(){return new Date ("8-12-2020")}).y());
+    // // Add the x Axis
+    // svg.append("g")
+    //     .attr("transform", "translate(0," + height + ")")
+    //     .call(d3.axisBottom(x));
+
+    // // Add the y Axis
+    // svg.append("g")
+    //     .call(d3.axisLeft(y));
+
+  });
+}
+lineChart('United Kingdom')
+</script>
+</body>
