@@ -75,12 +75,10 @@
 
       // Linechart function, read in potetial country and array, if loading from gdp chart
       function lineChart(input, array) {
-        d3.csv(
-          owidCSV
-        ).then(function (data) {
+        d3.csv(owidCSV).then(function (data) {
           // format the data
           // If the array is undefined we load data from the url
-        
+
           if (array == undefined) {
             arr = [];
             // loop through csv, if the location matches the read in loaction push the entry
@@ -115,10 +113,8 @@
             }),
           ]);
 
-          
-
-            // Text labels for the 1st and booster jabs, 
-            // dates taken
+          // Text labels for the 1st and booster jabs,
+          // dates taken
           var first = svg
             .append("text")
             .attr("y", height - 10) //magic number here
@@ -139,13 +135,13 @@
             .attr("class", "myLabel") //easy to style with CSS
             .text("Booster");
 
-// Add the valueline path.
+          // Add the valueline path.
           // Remove the previous paths
           svg.selectAll("path").remove();
           // Create u with the array as the data set, so we can group line paths
           var u = svg.selectAll("path").data([arr]);
-            // If the array is undefined we have read from the csv file, and will have a cases line and a 
-            // vaccines line
+          // If the array is undefined we have read from the csv file, and will have a cases line and a
+          // vaccines line
           if (array == undefined) {
             u.join("path")
               .attr("class", "line")
@@ -188,8 +184,6 @@
             .duration(3000);
         });
       }
-      
-
 
       d3.csv(owidCSV).then(function (data) {
         // group the data: I want to draw one line per group
@@ -210,7 +204,7 @@
           .scale(width / 1.8 / Math.PI)
           .translate([width / 2, height / 2]);
 
-        // Create a geopath from the projection 
+        // Create a geopath from the projection
         let geoGenerator = d3.geoPath().projection(projection);
 
         // Colour scale to colour the countries based on their case values
@@ -476,7 +470,6 @@
             "#08306b",
           ]);
 
-
         function update(geojson) {
           // Create and append paths for each item in the geoJson dataset, using the geoGenerator to process the data
           let u = d3
@@ -538,7 +531,7 @@
                 }
               }
             })
-            .on("click", handleMouseclick)
+            .on("click", handleMouseclick);
         }
         function handleMouseclick(e, d) {
           // On click create a linechart for the country
@@ -604,10 +597,10 @@
           return y(d.new_cases);
         });
 
-        // Income chart function, read in a range ranges can be 
-        // "High", "mid", "low"
-        // The countries in the dataset are split into three arrays based on their gdp per capita
-        // this is then used to present the number of cases for these groups
+      // Income chart function, read in a range ranges can be
+      // "High", "mid", "low"
+      // The countries in the dataset are split into three arrays based on their gdp per capita
+      // this is then used to present the number of cases for these groups
       function incomeChart(range) {
         d3.csv(
           "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv"
@@ -615,7 +608,7 @@
           // format the data
           // Create an array to add the filtered data to
           Income = [];
-          
+
           // Find the maximum gdp value in the dataset, so we can categorise countries
           max = d3.max(data, (d) => d.gdp_per_capita);
 
@@ -623,9 +616,9 @@
           lowThird = max * (1 / 3);
           midThird = max * (2 / 3);
 
-          // If the desired range is low, then countries 
+          // If the desired range is low, then countries
           // with gdp per capita lower than the lowThird will be added to the income array
-          // If the desired range is mid, then countries 
+          // If the desired range is mid, then countries
           // with gdp per capita lower than the midThird and higher than the lowThird
           // will be added to the income array
           // Otherwise then the data for the remaining third will be added to the income array
