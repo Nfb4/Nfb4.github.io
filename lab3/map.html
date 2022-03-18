@@ -9,6 +9,9 @@
 
   <body>
     <style>
+      .content {
+        background-color: gray;
+      }
       #content .map path {
         stroke: #fff;
       }
@@ -21,7 +24,7 @@
     </style>
 
     <div id="content">
-      <svg width="800" height="600">
+      <svg width="1000" height="600">
         <g class="map"></g>
       </svg>
     </div>
@@ -115,9 +118,19 @@
 
           // Text labels for the 1st and booster jabs,
           // dates taken
+          svg.selectAll("text").remove();
+          
+          var label = svg
+            .append("text")
+            .attr("y", 10) //magic number here so it looks nice
+            .attr("x", width/2)
+            .attr("text-anchor", "middle")
+            .attr("class", "myLabel") //easy to style with CSS
+            .text("Daily cases and Daily vaccinations");
+
           var first = svg
             .append("text")
-            .attr("y", height - 10) //magic number here
+            .attr("y", height - 10) //magic number here so it looks nice
             .attr("x", function () {
               return x(parseTime("2020-12-8"));
             })
@@ -127,7 +140,7 @@
 
           var third = svg
             .append("text")
-            .attr("y", height - 10) //magic number here
+            .attr("y", height - 10) //magic number here so it looks nice
             .attr("x", function () {
               return x(parseTime("2021-8-16"));
             })
@@ -201,8 +214,8 @@
         // scale down so that each country is visibile and sized somewhat similar to a general map
         let projection = d3
           .geoMercator()
-          .scale(width / 1.8 / Math.PI)
-          .translate([width / 2, height / 2]);
+          .scale(width / 2.3 / Math.PI)
+          .translate([width / 2, height]);
 
         // Create a geopath from the projection
         let geoGenerator = d3.geoPath().projection(projection);
@@ -656,6 +669,7 @@
               return d.new_cases;
             }),
           ]);
+
 
           // The dates need to be sorted to merge the various countries data into one line
           Income.sort(function (a, b) {
