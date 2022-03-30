@@ -46,7 +46,8 @@
             for(let i=0; i<data.length; i++){
                 console.log(data[i]['Squad'])
                 //console.log(seasons[csv.slice(81,86)])
-               seasons[csv.slice(81,86)][data[i]['Squad']].append(Rk, W, D, L, GF, GA, Pts)
+               seasons[csv.slice(81,86)][data[i]['Squad']].push(data[i]['Rk'], data[i]['W'], 
+               data[i]['D'], data[i]['L'], data[i]['GF'], data[i]['GA'], data[i]['Pts'])
             }
         });
       };
