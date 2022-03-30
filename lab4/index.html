@@ -39,32 +39,43 @@
         }
 
 
-      let processData = function (csv) {
-        //   console.log(csv.slice(81,86))
-        d3.csv(csv).then(function (data) {
-            // console.log(seasons[csv.slice(81,86)])
-            for(let i=0; i<data.length; i++){
-                console.log(data[i]['Squad'])
-                //console.log(seasons[csv.slice(81,86)])
-               seasons[csv.slice(81,86)][data[i]['Squad']].push(data[i]['Rk'], data[i]['W'], 
-               data[i]['D'], data[i]['L'], data[i]['GF'], data[i]['GA'], data[i]['Pts'])
+      let processData = async function (csvArr, spend) {
+        const r = await iniData(spend)
+        console.log(csvArr)
+        for (let i=0; i<csvArr.length; i++){
+            d3.csv(csvArr[i]).then(function (data) {
+                if(seasons[csvArr[i].slice(81,86)][data[i]['Squad']] != undefined){
+                    // seasons[csvArr[i].slice(81,86)][data[i]['Squad']].push(data[i]['Rk'], data[i]['W'], 
+                    // data[i]['D'], data[i]['L'], data[i]['GF'], data[i]['GA'], data[i]['Pts'])
+                    seasons[csvArr[i].slice(81,86)][data[i]['Squad']] = [ 
+                        seasons[csvArr[i].slice(81,86)][data[i]['Squad']][0],
+                        seasons[csvArr[i].slice(81,86)][data[i]['Squad']][1],
+                        seasons[csvArr[i].slice(81,86)][data[i]['Squad']][2],
+                        data[i]['Rk'], data[i]['W'], 
+                        data[i]['D'], data[i]['L'], data[i]['GF'], data[i]['GA'], data[i]['Pts']]
+               
+               
             }
         });
+        console.log(seasons)
+      }
+      console.log(seasons)
+
+        
       };
 
-      d3.csv(spend).then(function (data) {
+      let iniData = function(spendCSV){
+      d3.csv(spendCSV).then(function (data) {
         
         for(let i=0; i<data.length; i++){
             seasons[data[i].yr][data[i].team] = [data[i].spend, data[i].inc, data[i].net]
 
         }
 
-      });
+      })}
 
-
-      for (let i=0; i<csvArr.length; i++){
-          processData(csvArr[i]);
-      }
+      processData(csvArr, spend)
+   
     </script>
   </body>
 </html>
