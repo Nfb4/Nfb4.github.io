@@ -5,35 +5,35 @@
 
   <body>
     <script>
-        let spend = 'https://raw.githubusercontent.com/Nfb4/Nfb4.github.io/main/lab4/spend.csv';
+      let spend =
+        "https://raw.githubusercontent.com/Nfb4/Nfb4.github.io/main/lab4/csvs/spend.csv";
 
-        let csvArr = [
-            'lab4/csvs/seasons/prem10-11.csv',
-            'lab4/csvs/seasons/prem11-12.csv',
-            'lab4/csvs/seasons/prem12-13.csv',
-            'lab4/csvs/seasons/prem13-14.csv',
-            'lab4/csvs/seasons/prem14-15.csv',
-            'lab4/csvs/seasons/prem15-16.csv',
-            'lab4/csvs/seasons/prem16-17.csv',
-            'lab4/csvs/seasons/prem17-18.csv',
-            'lab4/csvs/seasons/prem18-19.csv',
-            'lab4/csvs/seasons/prem19-20.csv',
-            'lab4/csvs/seasons/prem20-21.csv',
+      let csvArr = [
+        "https://raw.githubusercontent.com/Nfb4/Nfb4.github.io/main/lab4/csvs/seasons/prem10-11.csv",
+        "https://raw.githubusercontent.com/Nfb4/Nfb4.github.io/main/lab4/csvs/seasons/prem11-12.csv",
+        "https://raw.githubusercontent.com/Nfb4/Nfb4.github.io/main/lab4/csvs/seasons/prem12-13.csv",
+        "https://raw.githubusercontent.com/Nfb4/Nfb4.github.io/main/lab4/csvs/seasons/prem13-14.csv",
+        "https://raw.githubusercontent.com/Nfb4/Nfb4.github.io/main/lab4/csvs/seasons/prem14-15.csv",
+        "https://raw.githubusercontent.com/Nfb4/Nfb4.github.io/main/lab4/csvs/seasons/prem15-16.csv",
+        "https://raw.githubusercontent.com/Nfb4/Nfb4.github.io/main/lab4/csvs/seasons/prem16-17.csv",
+        "https://raw.githubusercontent.com/Nfb4/Nfb4.github.io/main/lab4/csvs/seasons/prem17-18.csv",
+        "https://raw.githubusercontent.com/Nfb4/Nfb4.github.io/main/lab4/csvs/seasons/prem18-19.csv",
+        "https://raw.githubusercontent.com/Nfb4/Nfb4.github.io/main/lab4/csvs/seasons/prem19-20.csv",
+        "https://raw.githubusercontent.com/Nfb4/Nfb4.github.io/main/lab4/csvs/seasons/prem20-21.csv",
+      ];
 
-        ]
-
-        let processData = function (csv){
-
-            d3.csv(csv).then(function (data){
-
-                console.log(data)
-
-            })
-
-        }
-        processData(spend)
-        processData(csvArr[3])
-
+      let processData = function (csv) {
+        d3.csv(csv).then(function (data) {
+          console.log(data);
+        });
+      };
+      d3.csv(spend).then(function (data) {
+        console.log(data);
+      });
+      for (let i=0; i<csvArr.length; i++){
+          processData(csvArr[i]);
+      }
+      
     </script>
   </body>
 </html>
