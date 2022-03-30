@@ -40,18 +40,23 @@
 
 
       let processData = function (csv) {
+        //   console.log(csv.slice(81,86))
         d3.csv(csv).then(function (data) {
+            // console.log(seasons[csv.slice(81,86)])
+            for(let i=0; i<data.length; i++){
+                console.log(data[i]['Squad'])
+                //console.log(seasons[csv.slice(81,86)])
+               seasons[csv.slice(81,86)][data[i]['Squad']].append(Rk, W, D, L, GF, GA, Pts)
+            }
         });
       };
 
       d3.csv(spend).then(function (data) {
         
         for(let i=0; i<data.length; i++){
-            console.log(data[i])
-            seasons[data[i].yr] = [data[i].yr, data[i].team, data[i].spend, data[i].inc, data[i].net] 
+            seasons[data[i].yr][data[i].team] = [data[i].spend, data[i].inc, data[i].net]
 
         }
-        console.log(seasons)
 
       });
 
@@ -59,7 +64,7 @@
       for (let i=0; i<csvArr.length; i++){
           processData(csvArr[i]);
       }
-      
+    //console.log(seasons)
     </script>
   </body>
 </html>
