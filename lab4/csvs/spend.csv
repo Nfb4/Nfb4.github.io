@@ -54,7 +54,7 @@ yr,team,spend,inc,net
 18-19,Southampton,£56.03m,£23.49m,£-32.54m
 18-19,Newcastle Utd,£53.78m,£45.94m,£-7.83m
 18-19,Cardiff City,£46.08m,,£-46.08m
-18-19,Huddersfield Town,£45.63m,£11.10m,£-34.53m
+18-19,Huddersfield,£45.63m,£11.10m,£-34.53m
 18-19,Burnley,£29.70m,£7.20m,£-22.50m
 18-19,Watford,£27.09m,£46.66m,£19.57m
 18-19,Crystal Palace,£10.67m,£315Th.,£-10.35m
@@ -73,7 +73,7 @@ yr,team,spend,inc,net
 17-18,Southampton,£55.13m,£88.52m,£33.39m
 17-18,Stoke City,£51.93m,£31.63m,£-20.30m
 17-18,West Ham,£51.12m,£62.12m,£11.00m
-17-18,Huddersfield Town,£51.08m,£5.81m,£-45.27m
+17-18,Huddersfield,£51.08m,£5.81m,£-45.27m
 17-18,West Brom,£48.15m,£1.85m,£-46.31m
 17-18,Crystal Palace,£44.06m,£2.70m,£-41.36m
 17-18,Newcastle Utd,£41.85m,£19.10m,£-22.75m
@@ -94,7 +94,7 @@ yr,team,spend,inc,net
 16-17,Swansea City,£52.29m,£44.37m,£-7.92m
 16-17,Middlesbrough,£43.16m,£12.15m,£-31.01m
 16-17,Burnley,£41.04m,£12.15m,£-31.01m
-16-17,Sunderland A,£37.71m,£21.39m,£-16.32m
+16-17,Sunderland,£37.71m,£21.39m,£-16.32m
 16-17,Bournemouth,£36.62m,£21.32m,£-15.30m
 16-17,Hull City,£36.00m,£26.01m,£-9.99m
 16-17,Stoke City,£34.90m,£3.42m,£-31.48m
@@ -107,7 +107,7 @@ yr,team,spend,inc,net
 15-16,Watford,£74.52m,£8.78m,£-65.75m
 15-16,Tottenham,£63.90m,£78.53m,£14.63m
 15-16,Aston Villa,£59.90m,£58.23m,£-1.67m
-15-16,Sunderland A,£59.45m,£9.90m,£-49.55m
+15-16,Sunderland,£59.45m,£9.90m,£-49.55m
 15-16,Southampton,£54.09m,£47.43m,£-6.66m
 15-16,Bournemouth,£49.60m,£585Th.,£-49.01m
 15-16,Stoke City,£48.29m,£20.88m,£-27.41m
@@ -135,7 +135,7 @@ yr,team,spend,inc,net
 14-15,Crystal Palace,£28.10m,£2.58m,£-25.52m
 14-15,West Brom,£22.39m,£2.07m,£-20.32m
 14-15,Leicester City,£20.57m,,£-20.57m
-14-15,Sunderland A,£20.26m,£6.53m,£-13.74m
+14-15,Sunderland,£20.26m,£6.53m,£-13.74m
 14-15,Aston Villa,£12.11m,£1.18m,£-10.92m
 14-15,Burnley,£11.36m,,£-11.36m
 14-15,Stoke City,£1.62m,£3.42m,£1.80m
@@ -147,7 +147,7 @@ yr,team,spend,inc,net
 13-14,Arsenal,£44.33m,£10.94m,£-33.39m
 13-14,Cardiff City,£41.23m,£3.37m,£-37.87m
 13-14,Southampton,£35.64m,£3.78m,£-31.86m
-13-14,Sunderland A,£30.52m,£20.14m,£-10.38m
+13-14,Sunderland,£30.52m,£20.14m,£-10.38m
 13-14,Crystal Palace,£29.70m,,£-29.70m
 13-14,Everton,£28.62m,£41.49m,£12.87m
 13-14,Hull City,£27.99m,£792Th.,£-27.20m
@@ -167,7 +167,7 @@ yr,team,spend,inc,net
 12-13,Arsenal,£50.40m,£59.27m,£8.87m
 12-13,Queens Park Rangers,£45.32m,£4.06m,£-41.26m
 12-13,Southampton,£37.35m,,£-37.35m
-12-13,Sunderland A,£34.47m,£13.34m,£-21.13m
+12-13,Sunderland,£34.47m,£13.34m,£-21.13m
 12-13,Newcastle Utd,£28.77m,£13.32m,£-15.45m
 12-13,Aston Villa,£25.05m,£2.88m,£-22.17m
 12-13,West Ham,£21.51m,£4.55m,£-16.96m
@@ -176,7 +176,7 @@ yr,team,spend,inc,net
 12-13,Swansea City,£18.42m,£29.34m,£10.92m
 12-13,Norwich City,£9.97m,£342Th.,£-9.63m
 12-13,Reading,£9.74m,£810Th.,£-8.93m
-12-13,Wigan Athletic,£9.48m,£11.93m,£2.44m
+12-13,Wiganthletic,£9.48m,£11.93m,£2.44m
 12-13,Fulham,£9.00m,£28.28m,£19.28m
 12-13,West Brom,£4.50m,£3.35m,£-1.15m
 11-12,Chelsea,£86.81m,£28.40m,£-58.40m
@@ -184,7 +184,7 @@ yr,team,spend,inc,net
 11-12,Arsenal,£58.93m,£70.46m,£11.53m
 11-12,Liverpool,£58.79m,£20.61m,£-38.18m
 11-12,Manchester Utd,£56.07m,£12.42m,£-43.65m
-11-12,Sunderland A,£25.13m,£23.69m,£-1.44m
+11-12,Sunderland,£25.13m,£23.69m,£-1.44m
 11-12,Newcastle Utd,£24.30m,£14.44m,£-9.86m
 11-12,Queens Park Rangers,£23.60m,£2.52m,£-21.08m
 11-12,Stoke City,£22.32m,£1.79m,£-20.53m
@@ -194,7 +194,7 @@ yr,team,spend,inc,net
 11-12,Bolton Wanderers,£14.04m,£14.70m,£657Th.
 11-12,Norwich City,£13.73m,£450Th.,£-13.28m
 11-12,Swansea City,£11.57m,£410Th.,£-11.16m
-11-12,Wigan Athletic,£11.14m,£10.16m,£-981Th.
+11-12,Wiganthletic,£11.14m,£10.16m,£-981Th.
 11-12,Wolves,£10.85m,£2.34m,£-8.51m
 11-12,West Brom,£8.22m,£10.01m,£1.78m
 11-12,Tottenham,£8.10m,£38.93m,£30.83m
@@ -204,7 +204,7 @@ yr,team,spend,inc,net
 10-11,Liverpool,£87.95m,£91.35m,£3.40m
 10-11,Aston Villa,£33.66m,£25.56m,£-8.10m
 10-11,Manchester Utd,£26.37m,£15.58m,£-10.79m
-10-11,Sunderland A,£26.19m,£37.60m,£11.41m
+10-11,Sunderland,£26.19m,£37.60m,£11.41m
 10-11,Tottenham,£23.94m,£2.64m,£-21.30m
 10-11,Birmingham City,£23.04m,£158Th.,£-22.88m
 10-11,Arsenal,£20.70m,£7.29m,£-13.41m
@@ -213,7 +213,7 @@ yr,team,spend,inc,net
 10-11,West Ham,£16.22m,£4.46m,£-11.77m
 10-11,Newcastle Utd,£12.58m,£37.58m,£24.99m
 10-11,West Brom,£12.45m,£765Th.,£-11.68m
-10-11,Wigan Athletic,£10.26m,£3.06m,£-7.20m
+10-11,Wiganthletic,£10.26m,£3.06m,£-7.20m
 10-11,Fulham,£9.95m,£11.53m,£1.58m
 10-11,Blackpool,£5.15m,£630Th.,£-4.52m
 10-11,Bolton Wanderers,£4.86m,£1.26m,£-3.60m
