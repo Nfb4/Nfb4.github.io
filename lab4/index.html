@@ -22,14 +22,40 @@
         "https://raw.githubusercontent.com/Nfb4/Nfb4.github.io/main/lab4/csvs/seasons/prem20-21.csv",
       ];
 
+        cumulative = {}
+
+        seasons = {
+            '20-21': {},
+            '19-20': {},
+            '18-19': {},
+            '17-18': {},
+            '16-17': {},
+            '15-16': {},
+            '14-15': {},
+            '13-14': {},
+            '12-13': {},
+            '11-12': {},
+            '10-11': {},
+        }
+
+
       let processData = function (csv) {
         d3.csv(csv).then(function (data) {
-          console.log(data);
         });
       };
+
       d3.csv(spend).then(function (data) {
-        console.log(data);
+        
+        for(let i=0; i<data.length; i++){
+            console.log(data[i])
+            seasons[data[i].yr] = [data[i].yr, data[i].team, data[i].spend, data[i].inc, data[i].net] 
+
+        }
+        console.log(seasons)
+
       });
+
+
       for (let i=0; i<csvArr.length; i++){
           processData(csvArr[i]);
       }
