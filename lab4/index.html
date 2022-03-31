@@ -22,60 +22,106 @@
         "https://raw.githubusercontent.com/Nfb4/Nfb4.github.io/main/lab4/csvs/seasons/prem20-21.csv",
       ];
 
-        cumulative = {}
+      cumulative = {};
 
-        seasons = {
-            '20-21': {},
-            '19-20': {},
-            '18-19': {},
-            '17-18': {},
-            '16-17': {},
-            '15-16': {},
-            '14-15': {},
-            '13-14': {},
-            '12-13': {},
-            '11-12': {},
-            '10-11': {},
-        }
-
-
-      let processData = async function (csvArr, spend) {
-        const r = await iniData(spend)
-        console.log(csvArr)
-        for (let i=0; i<csvArr.length; i++){
-            d3.csv(csvArr[i]).then(function (data) {
-                if(seasons[csvArr[i].slice(81,86)][data[i]['Squad']] != undefined){
-                    // seasons[csvArr[i].slice(81,86)][data[i]['Squad']].push(data[i]['Rk'], data[i]['W'], 
-                    // data[i]['D'], data[i]['L'], data[i]['GF'], data[i]['GA'], data[i]['Pts'])
-                    seasons[csvArr[i].slice(81,86)][data[i]['Squad']] = [ 
-                        seasons[csvArr[i].slice(81,86)][data[i]['Squad']][0],
-                        seasons[csvArr[i].slice(81,86)][data[i]['Squad']][1],
-                        seasons[csvArr[i].slice(81,86)][data[i]['Squad']][2],
-                        data[i]['Rk'], data[i]['W'], 
-                        data[i]['D'], data[i]['L'], data[i]['GF'], data[i]['GA'], data[i]['Pts']]
-               
-               
-            }
-        });
-        console.log(seasons)
-      }
-      console.log(seasons)
-
-        
+      seasons = {
+        "20-21": {},
+        "19-20": {},
+        "18-19": {},
+        "17-18": {},
+        "16-17": {},
+        "15-16": {},
+        "14-15": {},
+        "13-14": {},
+        "12-13": {},
+        "11-12": {},
+        "10-11": {},
       };
 
-      let iniData = function(spendCSV){
-      d3.csv(spendCSV).then(function (data) {
-        
-        for(let i=0; i<data.length; i++){
-            seasons[data[i].yr][data[i].team] = [data[i].spend, data[i].inc, data[i].net]
-
+      let processData = function (csvArr) {
+        for (let i = 0; i < csvArr.length; i++) {
+          d3.csv(csvArr[i]).then(function (data) {
+            let key = csvArr[i].slice(81, 86);
+            if (
+              seasons[csvArr[i].slice(81, 86)][data[i]["Squad"]] != undefined
+            ) {
+              seasons[csvArr[i].slice(81, 86)][data[i]["Squad"]] = [
+                seasons[csvArr[i].slice(81, 86)][data[i]["Squad"]][0],
+                seasons[csvArr[i].slice(81, 86)][data[i]["Squad"]][1],
+                seasons[csvArr[i].slice(81, 86)][data[i]["Squad"]][2],
+                data[i]["Rk"],
+                data[i]["W"],
+                data[i]["D"],
+                data[i]["L"],
+                data[i]["GF"],
+                data[i]["GA"],
+                data[i]["Pts"],
+              ];
+            }
+          });
         }
+      };
 
-      })}
+      function iniData(spendCSV) {
+        d3.csv(spendCSV).then(function (data) {
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].spend.slice(data[i].spend.length - 3) == "Th.") {
+              spend =
+                parseInt(data[i].spend.slice(1, data[i].spend.length - 3)) *
+                0.001;
+            } else if (data[i].spend == "") {
+              spend = 0;
+            } else {
+              spend = parseInt(
+                data[i].spend.slice(1, data[i].spend.length - 1)
+              );
+            }
+            if (data[i].inc.slice(data[i].inc.length - 3) == "Th.") {
+              inc =
+                parseInt(data[i].inc.slice(1, data[i].inc.length - 3)) * 0.001;
+            } else if (data[i].inc == "") {
+              inc = 0;
+            } else {
+              inc = parseInt(data[i].inc.slice(1, data[i].inc.length - 1));
+            }
+            if (data[i].net.slice(data[i].net.length - 3) == "Th.") {
+              net =
+                parseInt(data[i].net.slice(1, data[i].net.length - 3)) * 0.001;
+            } else if (data[i].net == "") {
+              net = 0;
+            } else {
+              net = parseInt(data[i].net.slice(1, data[i].net.length - 1));
+            }
+            if(data[i].team=="Aston Villa"){console.log(data[i].yr, spend, inc, net)}
 
-      processData(csvArr, spend)
-   
+            seasons[data[i].yr][data[i].team] = [spend, inc, net];
+
+            if (cumulative[data[i].team] != undefined) {
+              cumulative[data[i].team] = [
+                cumulative[data[i].team][0] + spend,
+                cumulative[data[i].team][1] + inc,
+                (cumulative[data[i].team][0] + spend) - (cumulative[data[i].team][1] + inc),
+              ];
+            } else {
+              cumulative[data[i].team] = [spend, inc, net];
+            }
+          }
+        });
+      }
+
+      async function call() {
+        try {
+          await iniData(spend);
+          console.log(cumulative);
+          await processData(csvArr);
+          console.log(seasons);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+
+      // processData(csvArr, spend)
+      call();
     </script>
   </body>
 </html>
