@@ -5,9 +5,11 @@
 
   <body>
     <script>
+      // CSV of spend data, all seasons in one csv
       let spend =
         "https://raw.githubusercontent.com/Nfb4/Nfb4.github.io/main/lab4/csvs/spend.csv";
 
+        // multiple csvs of stats for each individual season
       let csvArr = [
         "https://raw.githubusercontent.com/Nfb4/Nfb4.github.io/main/lab4/csvs/seasons/prem10-11.csv",
         "https://raw.githubusercontent.com/Nfb4/Nfb4.github.io/main/lab4/csvs/seasons/prem11-12.csv",
@@ -22,8 +24,10 @@
         "https://raw.githubusercontent.com/Nfb4/Nfb4.github.io/main/lab4/csvs/seasons/prem20-21.csv",
       ];
 
+      // Dictionary to store totals data for each club
       cumulative = {};
 
+      // Dictionary of dictionaries for each club in each season
       seasons = {
         "20-21": {},
         "19-20": {},
@@ -38,10 +42,15 @@
         "10-11": {},
       };
 
+      // Process the individual seasons
       let processData = function (csvArr) {
+        // Loop through each
         for (let i = 0; i < csvArr.length; i++) {
+          // Load the csv link as a csv object
           d3.csv(csvArr[i]).then(function (data) {
+            // Set key equal to the part of the csv string that is the current season so it can be used as a key for the dictionary
             let key = csvArr[i].slice(81, 86);
+            // Check if the current season contains an entry for the club at this index of the csv file, if it does add the necessary info
             if (
               seasons[csvArr[i].slice(81, 86)][data[i]["Squad"]] != undefined
             ) {
@@ -62,38 +71,57 @@
         }
       };
 
+      // Process the spend csv file
       function iniData(spendCSV) {
+        // Load in the csv
         d3.csv(spendCSV).then(function (data) {
+          // Loop through each item
           for (let i = 0; i < data.length; i++) {
+            // If the spend is in the thousands, multiple by .001 so it is inline with the other values in millions
             if (data[i].spend.slice(data[i].spend.length - 3) == "Th.") {
               spend =
                 parseInt(data[i].spend.slice(1, data[i].spend.length - 3)) *
                 0.001;
-            } else if (data[i].spend == "") {
+
+            } 
+            // If there is no value set spend to 0
+            else if (data[i].spend == "") {
               spend = 0;
             } else {
+              // Parse as int and remove '£' and 'M'
               spend = parseInt(
                 data[i].spend.slice(1, data[i].spend.length - 1)
               );
             }
+            // If the spend is in the thousands, multiple by .001 so it is inline with the other values in millions
             if (data[i].inc.slice(data[i].inc.length - 3) == "Th.") {
               inc =
                 parseInt(data[i].inc.slice(1, data[i].inc.length - 3)) * 0.001;
-            } else if (data[i].inc == "") {
+            } 
+            // If there is no value set inc to 0
+            else if (data[i].inc == "") {
               inc = 0;
-            } else {
+            } 
+              // Parse as int and remove '£' and 'M'
+              else {
               inc = parseInt(data[i].inc.slice(1, data[i].inc.length - 1));
             }
+            // If the spend is in the thousands, multiple by .001 so it is inline with the other values in millions
             if (data[i].net.slice(data[i].net.length - 3) == "Th.") {
               net =
                 parseInt(data[i].net.slice(1, data[i].net.length - 3)) * 0.001;
-            } else if (data[i].net == "") {
+            } 
+            // If there is no value set net to 0
+            else if (data[i].net == "") {
               net = 0;
             } else {
+              // Parse as int and remove '£' and 'M'
               net = parseInt(data[i].net.slice(1, data[i].net.length - 1));
             }
+            // Add the newly parsed values to the dictionary with the club name as kjey
             seasons[data[i].yr][data[i].team] = [spend, inc, net];
 
+            // For cumulative, if defined then values should be increased by the newly parsed values instead of set to
             if (cumulative[data[i].team] != undefined) {
               cumulative[data[i].team] = [
                 cumulative[data[i].team][0] + spend,
@@ -103,6 +131,7 @@
                   (cumulative[data[i].team][1] + inc),
               ];
             } else {
+              // If it is undefined simply set the values
               cumulative[data[i].team] = [spend, inc, net];
             }
           }
@@ -113,6 +142,7 @@
         try {
           await iniData(spend);
           await processData(csvArr);
+          console.log(seasons)
         } catch (err) {
           console.log(err);
         }
@@ -169,43 +199,39 @@
 
       // A function that create / update the plot for a given variable
       // also updates the axes as the size of the dataset changes
-      function update(data) {
-        // Defining x scale so values are proportionate
-        const keys = Object.keys(data);
+      // function update(data) {
+      //   // Defining x scale so values are proportionate
+
+      //   console.log((data))
+      //   var max = d3.max(data, function(d) {
+      //     console.log
+      //     return d[1];
+
+      //   })
+      //   console.log(max)
 
 
 
-        console.log((data))
-        var max = d3.max(data, function(d) {
-          console.log
-          return d[1];
+      //   // colour = red
+      //   // var x = d3
+      //   //   .scaleBand()
+      //   //   .range([0, width])
+      //   //   .domain(
+      //   //     data.map(function (d) {
+      //   //       return d.group;
+      //   //     })
+      //   //   )
+      //   //   .padding(0.2);
 
-        })
-        console.log(max)
+      //   // // Define the y scale so that the values are proportionate
+      //   // var y = d3.scaleLinear().domain([0, d3.max(data[2])]).range([height, 0]);
 
-
-
-        // colour = red
-        // var x = d3
-        //   .scaleBand()
-        //   .range([0, width])
-        //   .domain(
-        //     data.map(function (d) {
-        //       return d.group;
-        //     })
-        //   )
-        //   .padding(0.2);
-
-        // // Define the y scale so that the values are proportionate
-        // var y = d3.scaleLinear().domain([0, d3.max(data[2])]).range([height, 0]);
-
-        // // Intilise the axes
-        // iniAxis(x, y);
+      //   // // Intilise the axes
+      //   // iniAxis(x, y);
 
  
-      }
-
-      update(seasons['20-21'])
+      // }
+      // update(seasons['20-21'])
     </script>
   </body>
 </html>
